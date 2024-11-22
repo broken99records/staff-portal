@@ -9,7 +9,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="bg-white shadow-md py-4">
+      <header className="bg-gray-100 shadow-md py-4">
         <div className="container mx-auto flex justify-center">
           <Image
             src={LOGO}
