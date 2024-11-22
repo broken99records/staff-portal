@@ -1,101 +1,160 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { useState } from 'react';
+
+const AccessForm = () => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    jobTitle: '',
+    companyName: '',
+    companySize: '',
+  });
+
+  const [error, setError] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!validateEmail(formData.email)) {
+      setError('Must be a business email.');
+      return;
+    }
+    // handle form submission logic here
+    setError('');
+    console.log(formData);
+  };
+
+  const validateEmail = (email) => {
+    const invalidPersonalDomains = ['@gmail.', '@yahoo.', '@live.', '@aol.', '@outlook.'];
+    return !invalidPersonalDomains.some((domain) => email.includes(domain));
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+      <h3 className="text-2xl font-semibold text-gray-700 text-center mb-6">Get Access</h3>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 font-bold">
+            First Name
+          </label>
+          <input
+            type="text"
+            name="firstName"
+            id="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            className="mt-1 block w-full text-gray-700 px-4 py-2 border border-black-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+
+        <div>
+          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+            Last Name
+          </label>
+          <input
+            type="text"
+            name="lastName"
+            id="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            className="mt-1 block w-full px-4 py-2 border text-gray-700 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            required
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+        </div>
+
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            Business Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="mt-1 block w-full px-4 py-2 border text-gray-700 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            required
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+          {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="jobTitle" className="block text-sm text-gray-700 font-medium text-gray-700">
+            Job Title
+          </label>
+          <input
+            type="text"
+            name="jobTitle"
+            id="jobTitle"
+            value={formData.jobTitle}
+            onChange={handleChange}
+            className="mt-1 block w-full px-4 py-2 border text-gray-700 border-gray-300 text-gray-700 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            required
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+
+        <div>
+          <label htmlFor="companyName" className="block text-sm font-medium text-gray-700">
+            Company Name
+          </label>
+          <input
+            type="text"
+            name="companyName"
+            id="companyName"
+            value={formData.companyName}
+            onChange={handleChange}
+            className="mt-1 block w-full px-4 py-2 text-gray-700 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="companySize" className="block text-sm font-medium text-gray-700">
+            Company Size
+          </label>
+          <select
+            name="companySize"
+            id="companySize"
+            value={formData.companySize}
+            onChange={handleChange}
+            className="mt-1 block w-full px-4 py-2 text-gray-700 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            required
+          >
+            <option value="">Select Company Size</option>
+            <option value="1-100">1-100</option>
+            <option value="101-250">101-250</option>
+            <option value="251-1000">251-1000</option>
+            <option value="1001-5000">1001-5000</option>
+            <option value="5001-10000">5001-10000</option>
+            <option value="10001+">10001+</option>
+          </select>
+        </div>
+
+        <div className="text-sm text-gray-500">
+          By filling out this form and clicking the submit button you are agreeing to receive email communications from Zip regarding events, webinars, research, and more. Don’t worry, you can <a href="https://lp.ziphq.com/UnsubscribePage.html" className="text-blue-500 hover:underline">unsubscribe</a> at any time. View our <a href="https://ziphq.com/zip-privacy-notice" className="text-blue-500 hover:underline">Privacy Notice</a>. If you have any questions, please reach out to <a href="mailto:privacy@ziphq.com" className="text-blue-500 hover:underline">privacy@ziphq.com</a>.
+        </div>
+
+        <div className="mt-4 flex justify-center">
+          <button
+            type="submit"
+            className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            Get Access
+          </button>
+        </div>
+      </form>
     </div>
   );
-}
+};
+
+export default AccessForm;
