@@ -23,7 +23,7 @@ export default function Login() {
 
       {/* Main Section */}
       <main className="flex flex-grow items-center justify-center bg-gray-100">
-        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="max-w-4xl mx-auto flex bg-gray-100 flex-col md:flex-row items-center bg-white shadow-lg rounded-lg overflow-hidden">
           {/* Image Section */}
           <div className="md:w-1/2">
             <Image
@@ -36,7 +36,7 @@ export default function Login() {
           </div>
 
           {/* Login Form Section */}
-          <div className="md:w-1/2 p-6">
+          <div className="md:w-1/2 p-6 bg-gray-100">
             <h1 className="text-2xl font-semibold text-gray-800 mb-4">
               Login below to access the dashboard
             </h1>
