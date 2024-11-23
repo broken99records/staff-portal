@@ -1,11 +1,12 @@
 'use client'
 
 import Image from "next/image";
-import Link from "next/link";
 import LOGO from "@/app/assets/LOGO.png"
 import staff from "@/app/assets/staffff.png"
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Header */}
@@ -40,7 +41,7 @@ export default function Login() {
             <h1 className="text-2xl font-semibold text-gray-800 mb-4">
               Login below to access the dashboard
             </h1>
-            <form method="get" className="space-y-4">
+            <form className="space-y-4">
               <div>
                 <label
                   htmlFor="email"
@@ -73,10 +74,11 @@ export default function Login() {
               </div>
               <div>
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={() => router.push("/home")}
                   className="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
-                  <Link href="/home">Login</Link>
+                  Login
                 </button>
               </div>
             </form>
