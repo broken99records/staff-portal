@@ -7,7 +7,7 @@ import staff from "@/app/assets/staffff.png"
 
 export default function Login() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Header */}
       <header className="bg-gray-100 shadow-md py-4">
         <div className="container mx-auto flex justify-center">
@@ -22,10 +22,10 @@ export default function Login() {
       </header>
 
       {/* Main Section */}
-      <main className="flex flex-grow items-center justify-center bg-gray-100">
-        <div className="max-w-4xl mx-auto flex bg-gray-100 flex-col md:flex-row items-center bg-white shadow-lg rounded-lg overflow-hidden">
+      <main className="flex flex-grow bg-gray-100 items-center justify-center ">
+        <div className="max-w-4xl mx-auto flex  flex-col md:flex-row items-center shadow-lg rounded-lg overflow-hidden">
           {/* Image Section */}
-          <div className="md:w-1/2">
+          <div className="md:w-1/2 bg-gray-100">
             <Image
               src={staff}
               alt="Staff Member"
@@ -52,7 +52,7 @@ export default function Login() {
                   type="text"
                   id="email"
                   name="email"
-                  className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 block text-gray-700 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   required
                 />
               </div>
@@ -67,7 +67,7 @@ export default function Login() {
                   type="password"
                   id="password"
                   name="password"
-                  className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 block text-gray-700 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   required
                 />
               </div>
