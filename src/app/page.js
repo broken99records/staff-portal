@@ -1,8 +1,12 @@
 'use client'
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const AccessForm = () => {
+
+  const router =  useRouter()
+  
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -37,6 +41,11 @@ const AccessForm = () => {
       [name]: value,
     });
   };
+
+  const subb = () => {
+   
+   router.push('/login')
+  }
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
@@ -146,8 +155,9 @@ const AccessForm = () => {
 
         <div className="mt-4 flex justify-center">
           <button
-            type="submit"
+            type="button"
             className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            onClick={subb}
           >
             Get Access
           </button>
