@@ -54,7 +54,7 @@ const PettyCashRetirement = () => {
 
               <div>
                 <label htmlFor="description" className="block">Description</label>
-                <input type="text" id="description" className="w-full p-2 border rounded border-gray-300" />
+                <input type="text" id="description" className="w-full p-2 border rounded border-gray-400 text-gray-800" />
               </div>
 
               <div>
