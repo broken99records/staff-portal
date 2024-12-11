@@ -14,8 +14,8 @@ const PettyCashAdvance = () => {
         {/* Sidebar */}
         <SideBar/>
         {/* Form Section */}
-        <section className="w-full md:w-3/4 bg-white shadow-lg p-8 rounded-lg">
-          <h3 className="text-2xl font-bold mb-6">Petty Cash Advance</h3>
+        <section className="w-full md:w-3/4 bg-gray-50 shadow-lg p-8 rounded-lg">
+          <h3 className="text-2xl font-bold mb-6 text-gray-700">Petty Cash Advance</h3>
           <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-700 mb-1">Branch:</label>
@@ -73,13 +73,13 @@ const PettyCashAdvance = () => {
             <button className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">
               Originate
             </button>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">
+            <button className="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">
               Authorize
             </button>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">
+            <button className="bg-red-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">
               Reject
             </button>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">
+            <button className="bg-gray-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">
               Approve
             </button>
           </div>
