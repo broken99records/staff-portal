@@ -7,6 +7,7 @@ const SideBar = () => {
     { href: "../links/cash-advance", label: "Cash Advance" },
     { href: "../links/opex", label: "Opex/Capex Retirement" },
     { href: "../links/stationery-request", label: "Stationery Request" },
+    { href: "../links/review-request", label: "Review Request" },
   ];
 
   return (
