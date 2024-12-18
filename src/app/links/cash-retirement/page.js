@@ -15,7 +15,7 @@ const PettyCashRetirement = () => {
        
 
          {/* Main Form */}
-         <div className="flex-1 p-4">
+         <div className="flex-1 p-4 text-gray-700 bg-gray-100 rounded-lg shadow-md">
             <h3 className="text-2xl font-semibold mb-4">Petty Cash Retirement</h3>
             
             <form className="space-y-6">

@@ -13,7 +13,7 @@ export default function StationeryRequest() {
         <Sidebar />
 
         {/* Main Content */}
-        <main className="flex-1 bg-gray-50 p-8">
+        <main className="flex-1 bg-gray-50 p-8 text-gray-800 rounded-lg shadow-md">
           <h3 className="text-2xl font-semibold mb-6">Stationery Request</h3>
 
           <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">

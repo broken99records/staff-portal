@@ -13,7 +13,7 @@ export default function CashAdvance() {
                 <Sidebar />
 
                 {/* Main Content */}
-                <main className="flex-1 bg-gray-50 p-8">
+                <main className="flex-1 bg-gray-50 p-8 text-gray-700 rounded-lg shadow-md ">
                     <h3 className="text-2xl font-semibold mb-6">Cash Advance</h3>
                     
                     <section className="grid grid-cols-2 gap-8 mb-8">
