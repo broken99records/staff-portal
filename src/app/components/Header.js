@@ -2,12 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 import LOGO from "@/app/assets/LOGO.png"; // Update the path as per your project structure
 
+
 const Header = () => {
   return (
     <header className="bg-gray-100 shadow-md py-4">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center">
+          <Link href={'/login'}>
           <Image
             src={LOGO}
             alt="Logo"
@@ -15,6 +17,7 @@ const Header = () => {
             height={50}
             className="object-contain"
           />
+          </Link>
         </div>
 
         {/* Navigation */}

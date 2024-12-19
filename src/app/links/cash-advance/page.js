@@ -1,8 +1,51 @@
+'use client'
+
 import Header from '@/app/components/Header'; // Adjust path as needed
 import Footer from '@/app/components/Footer'; // Adjust path as needed
 import Sidebar from '@/app/components/SideBar'; // Adjust path as needed
+import { useState } from 'react';
 
 export default function CashAdvance() {
+     // State variables
+  const [department, setDepartment] = useState("");
+  const [branch, setBranch] = useState("");
+  const [payeeName, setPayeeName] = useState("");
+  const [payeeAccount, setPayeeAccount] = useState("");
+  const [invoiceAmount, setInvoiceAmount] = useState("");
+  const [cashAdvance, setCashAdvance] = useState("");
+  const [narration, setNarration] = useState("");
+  const [lessWhat, setLessWhat] = useState("");
+  const [amount, setAmount] = useState("");
+  //might not need the following
+  const [email, setEmail] = useState("");
+  const [submittedData, setSubmittedData] = useState(null); // To store response or confirmation
+
+  // Function to handle form submission
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent default form behavior
+    const data = { department, branch, payeeName, payeeAccount, invoiceAmount, cashAdvance, narration, 
+        lessWhat, amount };
+
+    // Send POST request when form is submitted
+    fetch("https://mail-setup.onrender.com/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        setSubmittedData(result); // Store response data
+      })
+      .catch((error) => {
+        console.error("Error submitting data:", error);
+      });
+  };
+
+
+
+
     return (
         <div className="min-h-screen flex flex-col">
             {/* Header */}
@@ -25,6 +68,7 @@ export default function CashAdvance() {
                                     id="branch"
                                     name="branch"
                                     className="w-full border border-gray-300 p-2 rounded"
+                                    onChange={(e) => setBranch(e.target.value)}
                                 />
 
                                 <label className="block mt-4 mb-2 font-medium" htmlFor="payeeName">Payee Name:</label>
@@ -33,6 +77,8 @@ export default function CashAdvance() {
                                     id="payeeName"
                                     name="payeeName"
                                     className="w-full border border-gray-300 p-2 rounded"
+                                    onChange={(e) => setPayeeName(e.target.value)}
+
                                 />
 
                                 <label className="block mt-4 mb-2 font-medium" htmlFor="invoiceAmount">Invoice Amount:</label>
@@ -41,6 +87,8 @@ export default function CashAdvance() {
                                     id="invoiceAmount"
                                     name="invoiceAmount"
                                     className="w-full border border-gray-300 p-2 rounded"
+                                    onChange={(e) => setInvoiceAmount(e.target.value)}
+
                                 />
                             </form>
                         </div>
@@ -52,7 +100,9 @@ export default function CashAdvance() {
                                     type="text"
                                     id="department"
                                     name="department"
-                                    className="w-full border border-gray-300 p-2 rounded"
+                                    className="w-full border border-gray-500 p-2 rounded"
+                                    onChange={(e) => setDepartment(e.target.value)}
+
                                 />
 
                                 <label className="block mt-4 mb-2 font-medium" htmlFor="payeeAccount">Payee Account:</label>
@@ -61,6 +111,8 @@ export default function CashAdvance() {
                                     id="payeeAccount"
                                     name="payeeAccount"
                                     className="w-full border border-gray-300 p-2 rounded"
+                                    onChange={(e) => setPayeeAccount(e.target.value)}
+
                                 />
 
                                 <label className="block mt-4 mb-2 font-medium" htmlFor="cashAdvance">Cash Advance:</label>
@@ -69,6 +121,8 @@ export default function CashAdvance() {
                                     id="cashAdvance"
                                     name="cashAdvance"
                                     className="w-full border border-gray-300 p-2 rounded"
+                                    onChange={(e) => setCashAdvance(e.target.value)}
+
                                 />
                             </form>
                         </div>
@@ -81,6 +135,8 @@ export default function CashAdvance() {
                             id="narration"
                             name="narration"
                             className="w-full border border-gray-300 p-2 rounded"
+                            onChange={(e) => setNarration(e.target.value)}
+
                         />
                     </form>
 
@@ -92,6 +148,8 @@ export default function CashAdvance() {
                                 id="lessWhat"
                                 name="lessWhat"
                                 className="w-full border border-gray-300 p-2 rounded"
+                                onChange={(e) => setLessWhat(e.target.value)}
+
                             />
                         </div>
 
@@ -102,6 +160,8 @@ export default function CashAdvance() {
                                 id="amount"
                                 name="amount"
                                 className="w-full border border-gray-300 p-2 rounded"
+                                onChange={(e) => setAmount(e.target.value)}
+
                             />
                         </div>
                     </section>
