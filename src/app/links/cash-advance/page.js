@@ -5,52 +5,68 @@ import Footer from "@/app/components/Footer"; // Adjust path as needed
 import Sidebar from "@/app/components/SideBar"; // Adjust path as needed
 import { useEffect, useState } from "react";
 
-export default function CashAdvance() {
+export default function cash_advance() {
   // State variables
-  const [department, setDepartment] = useState("");
-  const [branch, setBranch] = useState("");
-  const [payeeName, setPayeeName] = useState("");
-  const [payeeAccount, setPayeeAccount] = useState("");
-  const [invoiceAmount, setInvoiceAmount] = useState("");
-  const [cashAdvance, setCashAdvance] = useState("");
-  const [narration, setNarration] = useState("");
-  const [lessWhat, setLessWhat] = useState("");
-  const [amount, setAmount] = useState("");
+  const [department, setDepartment] = useState("IT");
+  const [branch_name, setBranchName] = useState("head office");
+  const [payee_name, setPayeeName] = useState("Ama");
+  const [payee_account, setPayeeAccount] = useState("eshiet");
+  const [invoice_amount, setInvoiceAmount] = useState("3344343334");
+  const [cash_advance, setCashAdvance] = useState("34343434");
+  const [narration, setNarration] = useState("hello world, this is a test");
+  const [less_what, setLessWhat] = useState("3445554");
+  const [amount, setAmount] = useState("4745848399");
+  const [request_type, setRequest_type] = useState("Cash Advance");
   //might not need the following
-  const [email, setEmail] = useState("");
+
   const [submittedData, setSubmittedData] = useState(null); // To store response or confirmation
 
   // Function to handle form submission
-  const handleSubmit = (event) => {
-   
-    const data = {
-      department,
-      branch,
-      payeeName,
-      payeeAccount,
-      invoiceAmount,
-      cashAdvance,
-      narration,
-      lessWhat,
-      amount,
-    };
+const handleSubmit = async () => {
+  console.log("running..........");
+  
+  // Data to be sent in the POST request
+  const data = {
+    department,
+    request_type,
+    branch_name,
+    payee_name,
+    payee_account,
+    invoice_amount,
+    cash_advance,
+    narration,
+    less_what,
+    amount,
+  };
 
-    // Send POST request when form is submitted
-    fetch("https://mail-setup.onrender.com/", {
+  console.log(data); // Testing
+
+  // Send POST request when form is submitted
+  try {
+    let response = await fetch("https://mail-setup.onrender.com/cashadvance", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        setSubmittedData(result); // Store response data
-      })
-      .catch((error) => {
-        console.error("Error submitting data:", error);
-      });
-  };
+    });
+
+    // Check if the response is successful
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // Parse the response JSON
+    const result = await response.json();
+    setSubmittedData(result); // Store response data
+    console.log("Data submitted successfully:", result);
+  }
+   catch (error) {
+    console.log('error at post method')
+    console.error("Error submitting data:", error);
+  }
+};
+
 
   useEffect(() => {
     if (submittedData) {
@@ -74,42 +90,42 @@ export default function CashAdvance() {
           <section className="grid grid-cols-2 gap-8 mb-8">
             <div>
               <form>
-                <label className="block mb-2 font-medium" htmlFor="branch">
-                  Branch:
+                <label className="block mb-2 font-medium" htmlFor="branch_name">
+                  branch name:
                 </label>
                 <input
                   type="text"
-                  id="branch"
-                  name="branch"
-                  className="w-full border border-gray-300 p-2 rounded"
-                  onChange={(e) => setBranch(e.target.value)}
+                  id="branch name"
+                  name="branch name"
+                  className="w-full border border-gray-400 p-2 rounded"
+                  onChange={(e) => setBranchName(e.target.value)}
                 />
 
                 <label
                   className="block mt-4 mb-2 font-medium"
-                  htmlFor="payeeName"
+                  htmlFor="payee_name"
                 >
                   Payee Name:
                 </label>
                 <input
                   type="text"
-                  id="payeeName"
-                  name="payeeName"
-                  className="w-full border border-gray-300 p-2 rounded"
+                  id="payee_name"
+                  name="payee_name"
+                  className="w-full border border-gray-400 p-2 rounded"
                   onChange={(e) => setPayeeName(e.target.value)}
                 />
 
                 <label
                   className="block mt-4 mb-2 font-medium"
-                  htmlFor="invoiceAmount"
+                  htmlFor="invoice_amount"
                 >
                   Invoice Amount:
                 </label>
                 <input
                   type="text"
-                  id="invoiceAmount"
-                  name="invoiceAmount"
-                  className="w-full border border-gray-300 p-2 rounded"
+                  id="invoice_amount"
+                  name="invoice_amount"
+                  className="w-full border border-gray-400 p-2 rounded"
                   onChange={(e) => setInvoiceAmount(e.target.value)}
                 />
               </form>
@@ -124,35 +140,35 @@ export default function CashAdvance() {
                   type="text"
                   id="department"
                   name="department"
-                  className="w-full border border-gray-500 p-2 rounded"
+                  className="w-full border border-gray-400 p-2 rounded"
                   onChange={(e) => setDepartment(e.target.value)}
                 />
 
                 <label
                   className="block mt-4 mb-2 font-medium"
-                  htmlFor="payeeAccount"
+                  htmlFor="payee_account"
                 >
                   Payee Account:
                 </label>
                 <input
                   type="text"
-                  id="payeeAccount"
-                  name="payeeAccount"
-                  className="w-full border border-gray-300 p-2 rounded"
+                  id="payee_account"
+                  name="payee_account"
+                  className="w-full border border-gray-400 p-2 rounded"
                   onChange={(e) => setPayeeAccount(e.target.value)}
                 />
 
                 <label
                   className="block mt-4 mb-2 font-medium"
-                  htmlFor="cashAdvance"
+                  htmlFor="cash_advance"
                 >
                   Cash Advance:
                 </label>
                 <input
                   type="text"
-                  id="cashAdvance"
-                  name="cashAdvance"
-                  className="w-full border border-gray-300 p-2 rounded"
+                  id="cash_advance"
+                  name="cash_advance"
+                  className="w-full border border-gray-400 p-2 rounded"
                   onChange={(e) => setCashAdvance(e.target.value)}
                 />
               </form>
@@ -167,21 +183,21 @@ export default function CashAdvance() {
               type="text"
               id="narration"
               name="narration"
-              className="w-full border border-gray-300 p-2 rounded"
+              className="w-full border border-gray-400 p-2 rounded"
               onChange={(e) => setNarration(e.target.value)}
             />
           </form>
 
           <section className="grid grid-cols-2 gap-8 mb-8">
             <div>
-              <label className="block mb-2 font-medium" htmlFor="lessWhat">
+              <label className="block mb-2 font-medium" htmlFor="less_what">
                 Less What (if any):
               </label>
               <input
                 type="text"
-                id="lessWhat"
-                name="lessWhat"
-                className="w-full border border-gray-300 p-2 rounded"
+                id="less_what"
+                name="less_what"
+                className="w-full border border-gray-400 p-2 rounded"
                 onChange={(e) => setLessWhat(e.target.value)}
               />
             </div>
@@ -194,7 +210,7 @@ export default function CashAdvance() {
                 type="text"
                 id="amount"
                 name="amount"
-                className="w-full border border-gray-300 p-2 rounded"
+                className="w-full border border-gray-400 p-2 rounded"
                 onChange={(e) => setAmount(e.target.value)}
               />
             </div>
@@ -228,9 +244,11 @@ export default function CashAdvance() {
           </form>
 
           <div className="flex flex-wrap gap-4">
-            <button 
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" 
-            onClick={handleSubmit()}>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              onClick={handleSubmit}
+            >
               ORIGINATE
             </button>
             <button className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
