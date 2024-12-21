@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import stafff from "@/app/assets/stafff.png.jpg"
+//import stafff from "@/app/assets/stafff.png.jpg"
 import LOGO from "@/app/assets/LOGO.png"
 import Header from "../components/Header";
 
@@ -18,7 +18,7 @@ export default function Home() {
           {/* Image Section */}
           <div className="md:w-1/2">
             <Image
-              src={stafff}
+              src={"/assets/green-shirt-group.png"}
               alt="Staff Member"
               width={500}
               height={500}

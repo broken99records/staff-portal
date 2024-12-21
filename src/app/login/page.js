@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import LOGO from "@/app/assets/LOGO.png"
-import staff from "@/app/assets/staffff.png"
+//import staff from "@/app/assets/staffff.png"
 import { useRouter } from "next/navigation";
 
 export default function Login() {
@@ -28,7 +28,7 @@ export default function Login() {
           {/* Image Section */}
           <div className="md:w-1/2 bg-gray-100">
             <Image
-              src={staff}
+              src={"/assets/lady-in-brown.png"}
               alt="Staff Member"
               width={500}
               height={500}
