@@ -14,7 +14,7 @@ export default function ReviewRequest() {
       id: 1,
       name: "Neil Sims",
       email: "email@flowbite.com",
-      amount: 320,
+      amount: 320456,
       details: "Request details for Neil Sims - Pending approval",
     },
     {
@@ -28,7 +28,7 @@ export default function ReviewRequest() {
       id: 3,
       name: "Michael Gough",
       email: "email@flowbite.com",
-      amount: 67,
+      amount: 6744,
       details: "Request details for Michael Gough - Completed",
     },
     {
@@ -42,7 +42,7 @@ export default function ReviewRequest() {
       id: 5,
       name: "Lana Byrd",
       email: "email@flowbite.com",
-      amount: 367,
+      amount: 3675,
       details: "Request details for Lana Byrd - Awaiting input",
     },
   ];
@@ -81,20 +81,40 @@ export default function ReviewRequest() {
                     </div>
                     <div className="flex items-center space-x-4">
                       <div className="text-base font-semibold text-gray-900 dark:text-white">
-                        ${user.amount}
+                      &#8358;{user.amount}
                       </div>
                       {expandedId === user.id ? (
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-up">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M6 15l6 -6l6 6" />
-                      </svg>             
-
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-up"
+                        >
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M6 15l6 -6l6 6" />
+                        </svg>
                       ) : (
-                        
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M6 9l6 6l6 -6" />
-                          </svg>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down"
+                        >
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M6 9l6 6l6 -6" />
+                        </svg>
                       )}
                     </div>
                   </div>
@@ -105,15 +125,15 @@ export default function ReviewRequest() {
                         {user.details}
                       </p>
                       <div className="flex flex-wrap gap-4 mt-10">
-                      <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
-                        AUTHORIZE
-                      </button>
-                      <button className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                        RETURN
-                      </button>
-                      <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-                        REJECT
-                      </button>
+                        <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                          AUTHORIZE
+                        </button>
+                        <button className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                          RETURN
+                        </button>
+                        <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                          REJECT
+                        </button>
                       </div>
                     </div>
                   )}
