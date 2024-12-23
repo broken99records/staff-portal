@@ -60,7 +60,7 @@ export default function ReviewRequest() {
         <main className="flex-1 bg-gray-50 p-8">
           <h3 className="text-2xl text-black font-semibold mb-6 ml-4">Review Request</h3>
 
-          <ul className="max-w-lg divide-y text-black divide-gray-200 dark:divide-gray-700">
+          <ul className="max-w-lg divide-y text-black dark: text-gray-500 dark:divide-gray-700">
             {users.map((user) => (
               <li
                 key={user.id}
