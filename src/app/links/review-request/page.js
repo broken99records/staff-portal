@@ -60,7 +60,7 @@ export default function ReviewRequest() {
         <main className="flex-1 bg-gray-50 p-8">
           <h3 className="text-2xl text-black font-semibold mb-6 ml-4">Review Request</h3>
 
-          <ul className="max-w-lg divide-y text-black dark: text-gray-500 dark:divide-gray-700">
+          <ul className="max-w-lg divide-y text-black  ">
             {users.map((user) => (
               <li
                 key={user.id}
@@ -72,15 +72,15 @@ export default function ReviewRequest() {
                 <div className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                      <p className="text-sm font-medium text-gray-900 truncate ">
                         {user.name}
                       </p>
-                      <p className="text-sm text-gray-500 truncate dark:text-gray-400">
+                      <p className="text-sm text-gray-500 truncate ">
                         {user.email}
                       </p>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <div className="text-base font-semibold text-gray-900 dark:text-white">
+                      <div className="text-base font-semibold text-gray-900">
                       &#8358;{user.amount}
                       </div>
                       {expandedId === user.id ? (
@@ -120,8 +120,8 @@ export default function ReviewRequest() {
                   </div>
 
                   {expandedId === user.id && (
-                    <div className="mt-4 p-4 gap-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                      <p className="text-sm text-gray-700 dark:text-gray-300">
+                    <div className="mt-4 p-4 gap-4 bg-gray-50 rounded-lg">
+                      <p className="text-sm text-gray-700">
                         {user.details}
                       </p>
                       <div className="flex flex-wrap gap-4 mt-10">
@@ -131,9 +131,7 @@ export default function ReviewRequest() {
                         <button className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
                           RETURN
                         </button>
-                        <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-                          REJECT
-                        </button>
+                        
                       </div>
                     </div>
                   )}
