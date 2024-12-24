@@ -5,6 +5,7 @@ import SideBar from "@/app/components/SideBar";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { addPettyCashAdvanceRequestToDb } from "@/app/appwriteFunctions";
 
 const PettyCashAdvance = () => {
   // State variables
@@ -15,12 +16,22 @@ const PettyCashAdvance = () => {
   const [payee_account, setPayeeAccount] = useState("eshiet");
   const [total_amount, setTotalAmount] = useState("test");
   const [description, setDescription] = useState("test");
-  const [items, setItems] = useState("test");
+  const [items, setItems] = useState(["test","test","test"]);
 
   const [submittedData, setSubmittedData] = useState(null); // To store response or confirmation
 
   const handleSubmit = async () => {
     console.log("running..........");
+
+    addPettyCashAdvanceRequestToDb(
+      branch_name,
+      department,
+      payee_name,
+      payee_account,
+      items,
+      description,
+      total_amount
+    );
 
     const data = {
       branch_name,
@@ -147,9 +158,9 @@ const PettyCashAdvance = () => {
           />
           <div className="flex flex-wrap gap-4 mt-8">
             <button
-             className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
-             onClick={handleSubmit}
-             >
+              className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
+              onClick={handleSubmit}
+            >
               Originate
             </button>
             <button className="hidden bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">

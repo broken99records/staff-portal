@@ -3,11 +3,27 @@
 import Header from "@/app/components/Header"; // Adjust path as needed
 import Footer from "@/app/components/Footer"; // Adjust path as needed
 import Sidebar from "@/app/components/SideBar"; // Adjust path as needed
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { getAllRequests } from "@/app/appwriteFunctions";
 
 export default function ReviewRequest() {
   const [expandedId, setExpandedId] = useState(null);
+  const [requests, setRequests] = useState([]);
+
+
+  useEffect(() => {
+    async function fetchRequests() {
+      try {
+        const response = getAllRequests();
+        setRequests(response);
+      } catch (error) {
+        console.error("Error fetching requests:", error);
+      }
+    }
+
+    fetchRequests();
+  }, []);
 
   const users = [
     {
@@ -61,29 +77,29 @@ export default function ReviewRequest() {
           <h3 className="text-2xl text-black font-semibold mb-6 ml-4">Review Request</h3>
 
           <ul className="max-w-lg divide-y text-black  ">
-            {users.map((user) => (
+            {requests?.map((request) => (
               <li
-                key={user.id}
+                key={request.$id}
                 className="w-full cursor-pointer transition-all duration-200"
                 onClick={() =>
-                  setExpandedId(expandedId === user.id ? null : user.id)
+                  setExpandedId(expandedId === request.id ? null : request.id)
                 }
               >
                 <div className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-900 truncate ">
-                        {user.name}
+                        {request.payee_name}
                       </p>
                       <p className="text-sm text-gray-500 truncate ">
-                        {user.email}
+                        {request.branch}
                       </p>
                     </div>
                     <div className="flex items-center space-x-4">
                       <div className="text-base font-semibold text-gray-900">
-                      &#8358;{user.amount}
+                      &#8358;{request.total_amount}
                       </div>
-                      {expandedId === user.id ? (
+                      {expandedId === request.$id ? (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
@@ -119,10 +135,10 @@ export default function ReviewRequest() {
                     </div>
                   </div>
 
-                  {expandedId === user.id && (
+                  {expandedId === request.$id && (
                     <div className="mt-4 p-4 gap-4 bg-gray-50 rounded-lg">
                       <p className="text-sm text-gray-700">
-                        {user.details}
+                        {request.description}
                       </p>
                       <div className="flex flex-wrap gap-4 mt-10">
                         <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
