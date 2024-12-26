@@ -4,26 +4,11 @@ import Header from "@/app/components/Header"; // Adjust path as needed
 import Footer from "@/app/components/Footer"; // Adjust path as needed
 import Sidebar from "@/app/components/SideBar"; // Adjust path as needed
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { getAllRequests } from "@/app/appwriteFunctions";
 
 export default function ReviewRequest() {
   const [expandedId, setExpandedId] = useState(null);
-  const [requests, setRequests] = useState([]);
-
-
-  useEffect(() => {
-    async function fetchRequests() {
-      try {
-        const response = getAllRequests();
-        setRequests(response);
-      } catch (error) {
-        console.error("Error fetching requests:", error);
-      }
-    }
-
-    fetchRequests();
-  }, []);
+  const [requests, setRequests] = useState(null);
 
   const users = [
     {
@@ -63,6 +48,28 @@ export default function ReviewRequest() {
     },
   ];
 
+  useEffect(() => {
+    async function fetchRequests() {
+      try {
+        const response = await getAllRequests();
+        const { documents } = response; // Destructure only the documents
+        console.log("This is a test: documents:", documents);
+
+        if (Array.isArray(documents)) {
+          setRequests(documents); // Ensure documents is an array and set it
+        } else {
+          console.error("Error: documents is not an array");
+          setRequests([]); // Set an empty array as a fallback
+        }
+      } catch (error) {
+        console.error("Error fetching requests:", error);
+        setRequests([]); // Set an empty array in case of an error
+      }
+    }
+
+    fetchRequests();
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -74,7 +81,9 @@ export default function ReviewRequest() {
 
         {/* Main Content */}
         <main className="flex-1 bg-gray-50 p-8">
-          <h3 className="text-2xl text-black font-semibold mb-6 ml-4">Review Request</h3>
+          <h3 className="text-2xl text-black font-semibold mb-6 ml-4">
+            Review Request
+          </h3>
 
           <ul className="max-w-lg divide-y text-black  ">
             {requests?.map((request) => (
@@ -82,7 +91,7 @@ export default function ReviewRequest() {
                 key={request.$id}
                 className="w-full cursor-pointer transition-all duration-200"
                 onClick={() =>
-                  setExpandedId(expandedId === request.id ? null : request.id)
+                  setExpandedId(expandedId === request.$id ? null : request.$id)
                 }
               >
                 <div className="p-4">
@@ -97,7 +106,7 @@ export default function ReviewRequest() {
                     </div>
                     <div className="flex items-center space-x-4">
                       <div className="text-base font-semibold text-gray-900">
-                      &#8358;{request.total_amount}
+                        &#8358;{request.total_amount}
                       </div>
                       {expandedId === request.$id ? (
                         <svg
@@ -138,8 +147,15 @@ export default function ReviewRequest() {
                   {expandedId === request.$id && (
                     <div className="mt-4 p-4 gap-4 bg-gray-50 rounded-lg">
                       <p className="text-sm text-gray-700">
-                        {request.description}
+                        {"Department: " + request.department}
                       </p>
+                      <p className="text-sm text-gray-700">
+                        {request.payee_account}
+                        </p>
+                        <p className="text-sm text-gray-700">
+                        {request.description}
+                        </p>
+
                       <div className="flex flex-wrap gap-4 mt-10">
                         <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
                           AUTHORIZE
@@ -147,7 +163,6 @@ export default function ReviewRequest() {
                         <button className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
                           RETURN
                         </button>
-                        
                       </div>
                     </div>
                   )}

@@ -38,18 +38,15 @@ export function addPettyCashAdvanceRequestToDb(
 }
 
 
-export function getAllRequests() {
-    const promise = databases.listDocuments(
+export async function getAllRequests() {
+  try {
+    const response = await databases.listDocuments(
       "676a9c3d00142302757e",
       "676a9d230039cefbd5b3"
     );
-  
-    promise.then(
-      function (response) {
-        console.log(response);
-      },
-      function (error) {
-        console.log(error);
-      }
-    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
   }
+}
