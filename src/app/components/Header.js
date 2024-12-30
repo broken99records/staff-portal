@@ -68,7 +68,7 @@ const Header = () => {
             Expense
           </Link>
           <Link href="#lms" className="text-gray-700 hover:text-blue-600 block py-2 md:py-0">
-            L.M.S
+            L.M.A
           </Link>
         </nav>
       </div>

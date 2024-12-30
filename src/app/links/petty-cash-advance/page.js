@@ -5,7 +5,7 @@ import SideBar from "@/app/components/SideBar";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { addPettyCashAdvanceRequestToDb } from "@/app/appwriteFunctions";
+import { addRequestToDb } from "@/app/appwriteFunctions";
 
 const PettyCashAdvance = () => {
   // State variables
@@ -23,7 +23,7 @@ const PettyCashAdvance = () => {
   const handleSubmit = async () => {
     console.log("running..........");
 
-    addPettyCashAdvanceRequestToDb(
+    addRequestToDb(
       branch_name,
       department,
       payee_name,
@@ -44,7 +44,7 @@ const PettyCashAdvance = () => {
       total_amount,
     };
 
-    console.log(data);
+    //console.log(data); //test
 
     try {
       let response = await fetch(

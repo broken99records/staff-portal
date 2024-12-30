@@ -98,16 +98,16 @@ export default function ReviewRequest() {
                   <div className="flex items-center justify-between">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-900 truncate ">
-                        {request.payee_name}
+                      {request.payee_name ? request.payee_name.charAt(0).toUpperCase() + request.payee_name.slice(1).toLowerCase() : ""}
                       </p>
                       <p className="text-sm text-gray-500 truncate ">
-                        {request.branch}
+                        {request.branch? request.branch.charAt(0).toUpperCase() + request.branch.slice(1).toLowerCase()  : ""}
                       </p>
                     </div>
                     <div className="flex items-center space-x-4">
                       <div className="text-base font-semibold text-gray-900">
                         &#8358;{request.total_amount}
-                      </div>
+                      </div> 
                       {expandedId === request.$id ? (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -116,10 +116,10 @@ export default function ReviewRequest() {
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-up"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-up"
                         >
                           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                           <path d="M6 15l6 -6l6 6" />
@@ -132,10 +132,10 @@ export default function ReviewRequest() {
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down"
                         >
                           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                           <path d="M6 9l6 6l6 -6" />
@@ -146,15 +146,88 @@ export default function ReviewRequest() {
 
                   {expandedId === request.$id && (
                     <div className="mt-4 p-4 gap-4 bg-gray-50 rounded-lg">
+                      
+                      
+                      {/* Branch */}
                       <p className="text-sm text-gray-700">
-                        {"Department: " + request.department}
+                        {request.branch ? "Branch: " + request.branch : ""}
                       </p>
+
+                      {/* Department */}
                       <p className="text-sm text-gray-700">
-                        {request.payee_account}
-                        </p>
-                        <p className="text-sm text-gray-700">
-                        {request.description}
-                        </p>
+                        {request.department
+                          ? "Department: " + request.department
+                          : ""}
+                      </p>
+
+                      {/* Payee Name */}
+                      <p className="text-sm text-gray-700">
+                        {request.payee_name
+                          ? "Payee Name: " + request.payee_name
+                          : ""}
+                      </p>
+
+                      {/* Payee Account */}
+                      <p className="text-sm text-gray-700">
+                        {request.payee_account
+                          ? "Payee Account: " + request.payee_account
+                          : ""}
+                      </p>
+
+                      {/* Items */}
+                      <p className="text-sm text-gray-700">
+                        {request.items ? "Items: " + request.items : ""}
+                      </p>
+
+                      {/* Description */}
+                      <p className="text-sm text-gray-700">
+                        {request.description
+                          ? "Description: " + request.description
+                          : ""}
+                      </p>
+
+                      {/* Narration */}
+                      <p className="text-sm text-gray-700">
+                        {request.narration
+                          ? "Narration: " + request.narration
+                          : ""}
+                      </p>
+
+                      {/* Total Amount */}
+                      <p className="text-sm  text-gray-700">
+                        {request.total_amount
+                          ? "Total Amount: " + request.total_amount
+                          : ""}
+                      </p>
+
+                      {/* Invoice Amount */}
+                      <p className="text-sm text-gray-700">
+                        {request.invoice_amount
+                          ? "Invoice Amount: " + request.invoice_amount
+                          : ""}
+                      </p>
+
+                      {/* Cash Advance */}
+                      <p className="text-sm text-gray-700">
+                        {request.cash_advance
+                          ? "Cash Advance: " + request.cash_advance
+                          : ""}
+                      </p>
+
+                      {/* Less What */}
+                      <p className="text-sm text-gray-700">
+                        {request.less_what
+                          ? "Less What: " + request.less_what
+                          : ""}
+                      </p>
+
+                      {/* Refund Reimbursement */}
+                      <p className="text-sm text-gray-700">
+                        {request.refund_reimbursement
+                          ? "Refund/Reimbursement: " +
+                            request.refund_reimbursement
+                          : ""}
+                      </p>
 
                       <div className="flex flex-wrap gap-4 mt-10">
                         <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">

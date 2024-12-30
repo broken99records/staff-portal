@@ -2,15 +2,18 @@
 
 import { databases, ID } from "./appwrite";
 
-
-export function addPettyCashAdvanceRequestToDb(
-  branch,
-  department,
-  payee_name,
-  payee_account,
-  items,
-  description,
-  total_amount
+export function addRequestToDb(
+  branch = null,
+  department = null,
+  payee_name = null,
+  payee_account = null,
+  items = null,
+  description = null,
+  total_amount = null,
+  invoice_amount = null,
+  cash_advance = null,
+  less_what = null,
+  refund_reimbursement = null
 ) {
   const promise = databases.createDocument(
     "676a9c3d00142302757e",
@@ -23,7 +26,11 @@ export function addPettyCashAdvanceRequestToDb(
       payee_account,
       items,
       description,
-      total_amount
+      total_amount,
+      invoice_amount,
+      cash_advance,
+      less_what,
+      refund_reimbursement
     }
   );
 
@@ -36,7 +43,6 @@ export function addPettyCashAdvanceRequestToDb(
     }
   );
 }
-
 
 export async function getAllRequests() {
   try {
