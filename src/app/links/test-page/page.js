@@ -1,24 +1,16 @@
-"use client";
+"use client"
 
-import Header from "@/app/components/Header";
-import SideBar from "@/app/components/SideBar";
-import Image from "next/image";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { addRequestToDb } from "@/app/appwriteFunctions";
+import React, { useState } from 'react';
 
 const PettyCashAdvance = () => {
-  // State variables
   const [request_type, setRequest_type] = useState("Petty Cash Advance");
-  const [department, setDepartment] = useState("IT");
-  const [branch_name, setBranchName] = useState("TEST");
-  const [payee_name, setPayeeName] = useState("Ama");
-  const [payee_account, setPayeeAccount] = useState("eshiet");
-  const [total_amount, setTotalAmount] = useState("test");
-  const [description, setDescription] = useState("test");
-  const [items, setItems] = useState([{item: "", description: ""}]);
-  const [submittedData, setSubmittedData] = useState(null); // To store response or confirmation
-
+  const [department, setDepartment] = useState("");
+  const [branch_name, setBranchName] = useState("");
+  const [payee_name, setPayeeName] = useState("");
+  const [payee_account, setPayeeAccount] = useState("");
+  const [total_amount, setTotalAmount] = useState("");
+  const [items, setItems] = useState([{ item: "", description: "" }]);
+  const [submittedData, setSubmittedData] = useState(null);
 
   const handleItemChange = (index, field, value) => {
     const newItems = [...items];
@@ -34,22 +26,7 @@ const PettyCashAdvance = () => {
     setItems(items.filter((_, i) => i !== index));
   };
 
-
   const handleSubmit = async () => {
-    console.log("running..........");
-
-    //adds data to the request database
-    addRequestToDb(
-      branch_name,
-      department,
-      payee_name,
-      payee_account,
-      items,
-      description,
-      total_amount
-    );
-
-    //data meant to be sent to email notification system
     const data = {
       branch_name,
       request_type,
@@ -61,97 +38,72 @@ const PettyCashAdvance = () => {
       total_amount,
     };
 
-    //console.log(data); //test
-
     try {
-      let response = await fetch(
-        "https://mail-setup.onrender.com/pettycashadvance",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch("https://mail-setup.onrender.com/pettycashadvance", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const result = await response.json();
       setSubmittedData(result);
-      console.log("Data submitted successfully:", result);
     } catch (error) {
-      console.error("Error submitting data:", error);
+      console.error("Error:", error);
     }
   };
 
-  useEffect(() => {
-    if (submittedData) {
-      console.log("Data successfully submitted:", submittedData);
-    }
-  }, [submittedData]);
-
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <Header />
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <header className="bg-white shadow-md p-4">
+        <h1 className="text-2xl font-bold text-gray-800">Staff Portal</h1>
+      </header>
 
-      {/* Content Section */}
       <main className="container mx-auto mt-8 flex flex-col md:flex-row gap-8 px-4">
-        {/* Sidebar */}
-        <SideBar />
-        {/* Form Section */}
-        <section className="w-full md:w-3/4 bg-gray-50 shadow-lg p-8 rounded-lg">
-          <h3 className="text-2xl font-bold mb-6 text-gray-700">
-            Petty Cash Advance
-          </h3>
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <nav className="w-full md:w-1/4 bg-white shadow-lg rounded-lg h-fit p-4">
+          <ul className="space-y-2">
+            <li className="p-2 bg-blue-100 rounded text-blue-800 font-medium">Petty Cash Advance</li>
+            <li className="p-2 hover:bg-gray-100 rounded cursor-pointer">Dashboard</li>
+            <li className="p-2 hover:bg-gray-100 rounded cursor-pointer">Requests</li>
+            <li className="p-2 hover:bg-gray-100 rounded cursor-pointer">Settings</li>
+          </ul>
+        </nav>
+
+        <section className="w-full md:w-3/4 bg-white shadow-lg p-8 rounded-lg">
+          <h3 className="text-2xl font-bold mb-6 text-gray-700">Petty Cash Advance</h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-700 mb-1">Branch:</label>
               <input
                 type="text"
                 className="w-full p-2 border border-gray-300 rounded"
-                placeholder="Enter branch name"
                 onChange={(e) => setBranchName(e.target.value)}
               />
-              <label className="block text-gray-700 mt-4 mb-1">
-                Payee Name:
-              </label>
+              <label className="block text-gray-700 mt-4 mb-1">Payee Name:</label>
               <input
                 type="text"
                 className="w-full p-2 border border-gray-300 rounded"
-                placeholder="Enter payee name"
                 onChange={(e) => setPayeeName(e.target.value)}
               />
-              
             </div>
             <div>
               <label className="block text-gray-700 mb-1">Department:</label>
               <input
                 type="text"
                 className="w-full p-2 border border-gray-300 rounded"
-                placeholder="Enter department"
                 onChange={(e) => setDepartment(e.target.value)}
               />
-              <label className="block text-gray-700 mt-4 mb-1">
-                Payee Account:
-              </label>
+              <label className="block text-gray-700 mt-4 mb-1">Payee Account:</label>
               <input
                 type="text"
                 className="w-full p-2 border border-gray-300 rounded"
-                placeholder="Enter account"
                 onChange={(e) => setPayeeAccount(e.target.value)}
               />
-              
             </div>
+          </div>
 
-           
-          </form>
-
-           {/* Dynamic Items Section */}
-           {items.map((item, index) => (
+          {items.map((item, index) => (
             <div key={index} className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-gray-700 mb-1">Item {index + 1}:</label>
@@ -185,7 +137,6 @@ const PettyCashAdvance = () => {
             </div>
           ))}
 
-          {/*add item button*/}
           <div className="mt-6">
             <button
               type="button"
@@ -196,18 +147,17 @@ const PettyCashAdvance = () => {
             </button>
           </div>
 
-
           <label className="block text-gray-700 mt-6 mb-1">Total Amount:</label>
           <input
             type="text"
             className="w-full p-2 border border-gray-300 rounded"
-            placeholder="Enter total amount"
             onChange={(e) => setTotalAmount(e.target.value)}
           />
+
           <div className="flex flex-wrap gap-4 mt-8">
             <button
-              className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
               onClick={handleSubmit}
+              className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
             >
               Originate
             </button>
@@ -224,43 +174,14 @@ const PettyCashAdvance = () => {
         </section>
       </main>
 
-      {/* Footer */}
       <footer className="bg-gray-800 text-white py-6 mt-auto">
         <div className="container mx-auto text-center">
           <p>&copy; Ekondo Staff Portal 2024</p>
           <div className="flex justify-center space-x-4 mt-4">
-            <Link href="https://www.facebook.com/ekondomfb/about">
-              <Image
-                src="/assets/facebook.png"
-                alt="Facebook"
-                width={24}
-                height={24}
-              />
-            </Link>
-            <Link href="https://x.com/ekondomfb">
-              <Image
-                src="/assets/twitter.png"
-                alt="Twitter"
-                width={24}
-                height={24}
-              />
-            </Link>
-            <Link href="https://www.linkedin.com/in/ekondo-bank-40a666155">
-              <Image
-                src="/assets/linkedin.png"
-                alt="LinkedIn"
-                width={24}
-                height={24}
-              />
-            </Link>
-            <Link href="https://www.instagram.com/ekondomfb">
-              <Image
-                src="/assets/instagram.png"
-                alt="Instagram"
-                width={24}
-                height={24}
-              />
-            </Link>
+            <div className="w-6 h-6 bg-white rounded-full"></div>
+            <div className="w-6 h-6 bg-white rounded-full"></div>
+            <div className="w-6 h-6 bg-white rounded-full"></div>
+            <div className="w-6 h-6 bg-white rounded-full"></div>
           </div>
         </div>
       </footer>
