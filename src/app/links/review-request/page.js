@@ -247,7 +247,7 @@ const [comment, setComment] = useState(""); // User's comment
                 : "Add Comment for Return"}
             </h2>
             <textarea
-              className="w-full p-2 border rounded mb-4"
+              className="w-full p-2 border border-gray-800 rounded mb-4"
               rows="4"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
