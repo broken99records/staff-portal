@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { addRequestToDb } from "@/app/appwriteFunctions";
+import Footer from "@/app/components/Footer";
 
 const PettyCashAdvance = () => {
   // State variables
@@ -16,9 +17,8 @@ const PettyCashAdvance = () => {
   const [payee_account, setPayeeAccount] = useState("eshiet");
   const [total_amount, setTotalAmount] = useState("test");
   const [description, setDescription] = useState("test");
-  const [items, setItems] = useState([{item: "", description: ""}]);
+  const [items, setItems] = useState([{ item: "", description: "" }]);
   const [submittedData, setSubmittedData] = useState(null); // To store response or confirmation
-
 
   const handleItemChange = (index, field, value) => {
     const newItems = [...items];
@@ -33,7 +33,6 @@ const PettyCashAdvance = () => {
   const removeItem = (index) => {
     setItems(items.filter((_, i) => i !== index));
   };
-
 
   const handleSubmit = async () => {
     console.log("running..........");
@@ -56,7 +55,7 @@ const PettyCashAdvance = () => {
       department,
       payee_name,
       payee_account,
-      items: items.map(item => item.item),
+      items: items.map((item) => item.item),
       description: items[0].description,
       total_amount,
     };
@@ -125,7 +124,6 @@ const PettyCashAdvance = () => {
                 placeholder="Enter payee name"
                 onChange={(e) => setPayeeName(e.target.value)}
               />
-              
             </div>
             <div>
               <label className="block text-gray-700 mb-1">Department:</label>
@@ -144,32 +142,40 @@ const PettyCashAdvance = () => {
                 placeholder="Enter account"
                 onChange={(e) => setPayeeAccount(e.target.value)}
               />
-              
             </div>
-
-           
           </form>
 
-           {/* Dynamic Items Section */}
-           {items.map((item, index) => (
-            <div key={index} className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Dynamic Items Section */}
+          {items.map((item, index) => (
+            <div
+              key={index}
+              className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
               <div>
-                <label className="block text-gray-700 mb-1">Item {index + 1}:</label>
+                <label className="block text-gray-700 mb-1">
+                  Item {index + 1}:
+                </label>
                 <input
                   type="text"
                   className="w-full p-2 border border-gray-300 rounded"
                   value={item.item}
-                  onChange={(e) => handleItemChange(index, 'item', e.target.value)}
+                  onChange={(e) =>
+                    handleItemChange(index, "item", e.target.value)
+                  }
                 />
               </div>
               <div>
-                <label className="block text-gray-700 mb-1">Description {index + 1}:</label>
+                <label className="block text-gray-700 mb-1">
+                  Description {index + 1}:
+                </label>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     className="w-full p-2 border border-gray-300 rounded"
                     value={item.description}
-                    onChange={(e) => handleItemChange(index, 'description', e.target.value)}
+                    onChange={(e) =>
+                      handleItemChange(index, "description", e.target.value)
+                    }
                   />
                   {index > 0 && (
                     <button
@@ -195,7 +201,6 @@ const PettyCashAdvance = () => {
               Add Item
             </button>
           </div>
-
 
           <label className="block text-gray-700 mt-6 mb-1">Total Amount:</label>
           <input
@@ -225,45 +230,7 @@ const PettyCashAdvance = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-6 mt-auto">
-        <div className="container mx-auto text-center">
-          <p>&copy; Ekondo Staff Portal 2024</p>
-          <div className="flex justify-center space-x-4 mt-4">
-            <Link href="https://www.facebook.com/ekondomfb/about">
-              <Image
-                src="/assets/facebook.png"
-                alt="Facebook"
-                width={24}
-                height={24}
-              />
-            </Link>
-            <Link href="https://x.com/ekondomfb">
-              <Image
-                src="/assets/twitter.png"
-                alt="Twitter"
-                width={24}
-                height={24}
-              />
-            </Link>
-            <Link href="https://www.linkedin.com/in/ekondo-bank-40a666155">
-              <Image
-                src="/assets/linkedin.png"
-                alt="LinkedIn"
-                width={24}
-                height={24}
-              />
-            </Link>
-            <Link href="https://www.instagram.com/ekondomfb">
-              <Image
-                src="/assets/instagram.png"
-                alt="Instagram"
-                width={24}
-                height={24}
-              />
-            </Link>
-          </div>
-        </div>
-      </footer>
+      <Footer></Footer>
     </div>
   );
 };
