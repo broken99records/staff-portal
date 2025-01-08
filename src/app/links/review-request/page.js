@@ -9,45 +9,11 @@ import { getAllRequests } from "@/app/appwriteFunctions";
 export default function ReviewRequest() {
   const [expandedId, setExpandedId] = useState(null);
   const [requests, setRequests] = useState(null);
-
-  const users = [
-    {
-      id: 1,
-      name: "Neil Sims",
-      email: "email@flowbite.com",
-      amount: 320456,
-      details: "Request details for Neil Sims - Pending approval",
-    },
-    {
-      id: 2,
-      name: "Bonnie Green",
-      email: "email@flowbite.com",
-      amount: 3467,
-      details: "Request details for Bonnie Green - In progress",
-    },
-    {
-      id: 3,
-      name: "Michael Gough",
-      email: "email@flowbite.com",
-      amount: 6744,
-      details: "Request details for Michael Gough - Completed",
-    },
-    {
-      id: 4,
-      name: "Thomas Lean",
-      email: "email@flowbite.com",
-      amount: 2367,
-      details: "Request details for Thomas Lean - Under review",
-    },
-    {
-      id: 5,
-      name: "Lana Byrd",
-      email: "email@flowbite.com",
-      amount: 3675,
-      details: "Request details for Lana Byrd - Awaiting input",
-    },
-  ];
-
+//modal
+const [isModalOpen, setIsModalOpen] = useState(false);
+const [modalAction, setModalAction] = useState(""); // "AUTHORIZE" or "RETURN"
+const [comment, setComment] = useState(""); // User's comment
+ 
   useEffect(() => {
     async function fetchRequests() {
       try {
@@ -69,6 +35,18 @@ export default function ReviewRequest() {
 
     fetchRequests();
   }, []);
+
+  const handleActionClick = (action) => {
+    setModalAction(action);
+    setIsModalOpen(true);
+  };
+
+  const handleSubmitComment = () => {
+    console.log(`Action: ${modalAction}, Comment: ${comment}`);
+    // Handle the comment submission logic here (e.g., send to API)
+    setIsModalOpen(false);
+    setComment("");
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -229,11 +207,19 @@ export default function ReviewRequest() {
                           : ""}
                       </p>
 
+                      
+
                       <div className="flex flex-wrap gap-4 mt-10">
-                        <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                        <button 
+                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                        onClick={() => handleActionClick("AUTHORIZE")}
+                        >
                           AUTHORIZE
                         </button>
-                        <button className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                        <button
+                         className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                         onClick={() => handleActionClick("RETURN")}
+                         >
                           RETURN
                         </button>
                       </div>
@@ -244,31 +230,46 @@ export default function ReviewRequest() {
             ))}
           </ul>
 
-          <div className="hidden flex flex-wrap gap-4 mt-10">
-            <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
-              AUTHORIZE
-            </button>
-            <button className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-              RETURN
-            </button>
-            <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-              REJECT
-            </button>
-            <button className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">
-              REQUEST PAYMENT
-            </button>
-            <button className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">
-              SEND CASH
-            </button>
-            <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
-              DELIVERY
-            </button>
-          </div>
+         
         </main>
       </div>
 
       {/* Footer */}
       <Footer />
+
+       {/* Modal */}
+       {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+            <h2 className="text-lg font-semibold mb-4">
+              {modalAction === "AUTHORIZE"
+                ? "Add Comment for Authorization"
+                : "Add Comment for Return"}
+            </h2>
+            <textarea
+              className="w-full p-2 border rounded mb-4"
+              rows="4"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Add your comment here..."
+            ></textarea>
+            <div className="flex justify-end gap-4">
+              <button
+                className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                onClick={handleSubmitComment}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
