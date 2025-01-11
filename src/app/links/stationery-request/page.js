@@ -6,10 +6,31 @@ import Sidebar from '@/app/components/SideBar'; // Adjust path as needed
 import { useState } from 'react';
 
 export default function StationeryRequest() {
+  //state variables
   const [branch, setBranch] = useState('');
   const [department, setDepartment] = useState('');
-  const [description, setDescription] = useState('');
-  const [quantity, setQuantity] = useState('');
+  
+  const [items, setItems] = useState([{ item: "", description: "" }]);
+
+  //functions
+  const handleItemChange = (index, field, value) => {
+    const newItems = [...items];
+    newItems[index] = { ...newItems[index], [field]: value };
+    setItems(newItems);
+  };
+
+  const addItem = () => {
+    setItems([...items, { item: "", description: "" }]);
+  };
+
+  const removeItem = (index) => {
+    setItems(items.filter((_, i) => i !== index));
+  };
+
+  const handleSubmit = () =>{
+    console.log((items))
+  }
+
 
 
   return (
@@ -53,35 +74,69 @@ export default function StationeryRequest() {
 
           <p className="mb-4">We wish to apply for the following stationeries for our branch/department.</p>
 
-          <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            <div>
-              <label htmlFor="description" className="block mb-2 font-medium">Description:</label>
-              <input
-                type="text"
-                id="description"
-                name="description"
-                className="w-full border border-gray-300 p-2 rounded"
-                size="50"
-              />
+          {/* Dynamic Items Section */}
+          {items.map((item, index) => (
+            <div
+              key={index}
+              className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
+              <div>
+                <label className="block text-gray-700 mb-1">
+                  Description {index + 1}:
+                </label>
+                <input
+                  type="text"
+                  className="w-full p-2 border border-gray-300 rounded"
+                  value={item.item}
+                  onChange={(e) =>
+                    handleItemChange(index, "item", e.target.value)
+                  }
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-1">
+                  Quantity {index + 1}:
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    className="w-full p-2 border border-gray-300 rounded"
+                    value={item.description}
+                    onChange={(e) =>
+                      handleItemChange(index, "description", e.target.value)
+                    }
+                  />
+                  {index > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => removeItem(index)}
+                      className="bg-red-500 text-white px-3 rounded hover:bg-red-600"
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
+          ))}
 
-            <div>
-              <label htmlFor="quantity" className="block mb-2 font-medium">Quantity:</label>
-              <input
-                type="text"
-                id="quantity"
-                name="quantity"
-                className="w-full border border-gray-300 p-2 rounded"
-              />
-            </div>
-          </section>
+          {/*add item button*/}
+          <div className="mt-6">
+            <button
+              type="button"
+              onClick={addItem}
+              className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
+            >
+              Add Item
+            </button>
+          </div>
 
-          <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-6">
-            ADD ITEM
-          </button>
 
           <div className="flex flex-wrap gap-4">
-            <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-blue-600">
+            <button
+             className="px-4 py-2 mt-4 bg-green-500 text-white rounded hover:bg-blue-600"
+             onClick={handleSubmit}
+             >
               ORIGINATE
             </button>
             <button className="hidden px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
