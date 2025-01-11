@@ -4,6 +4,7 @@ import Header from '@/app/components/Header'; // Adjust path as needed
 import Footer from '@/app/components/Footer'; // Adjust path as needed
 import Sidebar from '@/app/components/SideBar'; // Adjust path as needed
 import { useState } from 'react';
+import { addItemsToDb } from '@/app/appwriteFunctions';
 
 export default function StationeryRequest() {
   //state variables
@@ -28,7 +29,8 @@ export default function StationeryRequest() {
   };
 
   const handleSubmit = () =>{
-    console.log((items))
+    console.log(typeof(JSON.stringify((items))))
+    addItemsToDb(items)
   }
 
 

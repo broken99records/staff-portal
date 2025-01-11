@@ -48,14 +48,14 @@ const PettyCashAdvance = () => {
       total_amount
     );
 
-    //data meant to be sent to email notification system
+    //data to be sent to email notification system
     const data = {
       branch_name,
       request_type,
       department,
       payee_name,
       payee_account,
-      items: items.map((item) => item.item),
+      items: items,
       description: items[0].description,
       total_amount,
     };
@@ -111,7 +111,7 @@ const PettyCashAdvance = () => {
               <label className="block text-gray-700 mb-1">Branch:</label>
               <input
                 type="text"
-                className="w-full p-2 border border-gray-300 rounded"
+                className="w-full p-2 border text-gray-700 border-gray-300 rounded"
                 placeholder="Enter branch name"
                 onChange={(e) => setBranchName(e.target.value)}
               />
@@ -120,7 +120,7 @@ const PettyCashAdvance = () => {
               </label>
               <input
                 type="text"
-                className="w-full p-2 border border-gray-300 rounded"
+                className="w-full p-2 border text-gray-700 border-gray-300 rounded"
                 placeholder="Enter payee name"
                 onChange={(e) => setPayeeName(e.target.value)}
               />
@@ -129,7 +129,7 @@ const PettyCashAdvance = () => {
               <label className="block text-gray-700 mb-1">Department:</label>
               <input
                 type="text"
-                className="w-full p-2 border border-gray-300 rounded"
+                className="w-full p-2 border text-gray-700 border-gray-300 rounded"
                 placeholder="Enter department"
                 onChange={(e) => setDepartment(e.target.value)}
               />
@@ -138,7 +138,7 @@ const PettyCashAdvance = () => {
               </label>
               <input
                 type="text"
-                className="w-full p-2 border border-gray-300 rounded"
+                className="w-full p-2 border text-gray-700 border-gray-300 rounded"
                 placeholder="Enter account"
                 onChange={(e) => setPayeeAccount(e.target.value)}
               />
@@ -157,7 +157,7 @@ const PettyCashAdvance = () => {
                 </label>
                 <input
                   type="text"
-                  className="w-full p-2 border border-gray-300 rounded"
+                  className="w-full p-2 border text-gray-700 border-gray-300 rounded"
                   value={item.item}
                   onChange={(e) =>
                     handleItemChange(index, "item", e.target.value)
@@ -171,7 +171,7 @@ const PettyCashAdvance = () => {
                 <div className="flex gap-2">
                   <input
                     type="text"
-                    className="w-full p-2 border border-gray-300 rounded"
+                    className="w-full p-2 border text-gray-700 border-gray-300 rounded"
                     value={item.description}
                     onChange={(e) =>
                       handleItemChange(index, "description", e.target.value)
@@ -205,7 +205,7 @@ const PettyCashAdvance = () => {
           <label className="block text-gray-700 mt-6 mb-1">Total Amount:</label>
           <input
             type="text"
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 border text-gray-700 border-gray-300 rounded"
             placeholder="Enter total amount"
             onChange={(e) => setTotalAmount(e.target.value)}
           />

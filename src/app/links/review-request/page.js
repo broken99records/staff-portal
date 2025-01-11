@@ -13,6 +13,10 @@ export default function ReviewRequest() {
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [modalAction, setModalAction] = useState(""); // "AUTHORIZE" or "RETURN"
 const [comment, setComment] = useState(""); // User's comment
+
+function formatItems(items) {
+  return items.map(item => `\n - ${item.item}: ${item.description}`).join('\n');
+}
  
   useEffect(() => {
     async function fetchRequests() {
@@ -154,7 +158,7 @@ const [comment, setComment] = useState(""); // User's comment
 
                       {/* Items */}
                       <p className="text-sm text-gray-700">
-                        {request.items ? "Items: " + request.items : ""}
+                        {request.items ? "Items: " + formatItems(JSON.parse(request.items)) : ""}
                       </p>
 
                       {/* Description */}
@@ -217,7 +221,7 @@ const [comment, setComment] = useState(""); // User's comment
                           AUTHORIZE
                         </button>
                         <button
-                         className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                         className="px-4 py-2 bg-gray-500 text-white  rounded hover:bg-gray-600"
                          onClick={() => handleActionClick("RETURN")}
                          >
                           RETURN
@@ -241,13 +245,13 @@ const [comment, setComment] = useState(""); // User's comment
        {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-            <h2 className="text-lg font-semibold mb-4">
+            <h2 className="text-lg text-gray-700 font-semibold mb-4">
               {modalAction === "AUTHORIZE"
                 ? "Add Comment for Authorization"
                 : "Add Comment for Return"}
             </h2>
             <textarea
-              className="w-full p-2 border border-gray-800 rounded mb-4"
+              className="w-full p-2 text-gray-700 border border-gray-800 rounded mb-4"
               rows="4"
               value={comment}
               onChange={(e) => setComment(e.target.value)}

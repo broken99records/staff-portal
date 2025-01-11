@@ -24,13 +24,13 @@ export function addRequestToDb(
       department,
       payee_name,
       payee_account,
-      items,
+      items : JSON.stringify(items),
       description,
       total_amount,
       invoice_amount,
       cash_advance,
       less_what,
-      refund_reimbursement
+      refund_reimbursement,
     }
   );
 
@@ -55,4 +55,17 @@ export async function getAllRequests() {
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function addItemsToDb(items) {
+  const response = await databases.createDocument(
+    "676a9c3d00142302757e",
+    "676a9d230039cefbd5b3",
+    ID.unique(),
+    {
+      items: JSON.stringify(items),
+    }
+  );
+
+  console.log("Document created with array:", response);
 }
