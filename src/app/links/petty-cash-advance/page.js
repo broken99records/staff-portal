@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { addRequestToDb } from "@/app/appwriteFunctions";
 import Footer from "@/app/components/Footer";
+import LoadingSpinner from "@/app/components/loading";
 
 const PettyCashAdvance = () => {
   // State variables
@@ -14,11 +15,13 @@ const PettyCashAdvance = () => {
   const [department, setDepartment] = useState("IT");
   const [branch_name, setBranchName] = useState("TEST");
   const [payee_name, setPayeeName] = useState("Ama");
-  const [payee_account, setPayeeAccount] = useState("eshiet");
+  const [payee_account, setPayeeAccount] = useState(null);
   const [total_amount, setTotalAmount] = useState("test");
-  const [description, setDescription] = useState("test");
+  const [description, setDescription] = useState(null);
   const [items, setItems] = useState([{ item: "", description: "" }]);
   const [submittedData, setSubmittedData] = useState(null); // To store response or confirmation
+  //loading variable
+  const [loading, setloading] = useState(false)
 
   const handleItemChange = (index, field, value) => {
     const newItems = [...items];
@@ -36,6 +39,7 @@ const PettyCashAdvance = () => {
 
   const handleSubmit = async () => {
     console.log("running..........");
+    setloading(true)
 
     //adds data to the request database
     addRequestToDb(
@@ -44,7 +48,6 @@ const PettyCashAdvance = () => {
       payee_name,
       payee_account,
       items,
-      description,
       total_amount
     );
 
@@ -56,7 +59,6 @@ const PettyCashAdvance = () => {
       payee_name,
       payee_account,
       items: items,
-      description: items[0].description,
       total_amount,
     };
 
@@ -81,8 +83,11 @@ const PettyCashAdvance = () => {
       const result = await response.json();
       setSubmittedData(result);
       console.log("Data submitted successfully:", result);
+      setloading(false)
+      window.alert("Petty Cash Advance Submitted" )
     } catch (error) {
       console.error("Error submitting data:", error);
+      setloading(false)
     }
   };
 
