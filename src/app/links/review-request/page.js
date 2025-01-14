@@ -9,36 +9,55 @@ import { getAllRequests } from "@/app/appwriteFunctions";
 export default function ReviewRequest() {
   const [expandedId, setExpandedId] = useState(null);
   const [requests, setRequests] = useState(null);
-//modal
-const [isModalOpen, setIsModalOpen] = useState(false);
-const [modalAction, setModalAction] = useState(""); // "AUTHORIZE" or "RETURN"
-const [comment, setComment] = useState(""); // User's comment
+  //modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalAction, setModalAction] = useState(""); // "AUTHORIZE" or "RETURN"
+  const [comment, setComment] = useState(""); // User's comment
+  //confirm role of the user
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Track auth status
+  const [email, setEmail] = useState(""); // User email
+  const [password, setPassword] = useState(""); // User password
+  const [error, setError] = useState(""); // Error message for invalid login
+  const [role, setRole] = useState(null); // User role
+  //array holding roles in the system
+  const roleArray = [
+    "officer",
+    "Recommender",
+    "Reviewer",
+    "MD",
+    "Account",
+    "Super",
+  ];
 
-function formatItems(items) {
-  return items.map(item => `\n - ${item.item}: ${item.description}`).join('\n');
-}
- 
+  function formatItems(items) {
+    return items
+      .map((item) => `\n - ${item.item}: ${item.description}`)
+      .join("\n");
+  }
+
   useEffect(() => {
-    async function fetchRequests() {
-      try {
-        const response = await getAllRequests();
-        const { documents } = response; // Destructure only the documents
-        console.log("This is a test: documents:", documents);
+    if (role !== null) {
+      async function fetchRequests() {
+        try {
+          const response = await getAllRequests();
+          const { documents } = response; // Destructure only the documents
+          console.log("This is a test: documents:", documents);
 
-        if (Array.isArray(documents)) {
-          setRequests(documents); // Ensure documents is an array and set it
-        } else {
-          console.error("Error: documents is not an array");
-          setRequests([]); // Set an empty array as a fallback
+          if (Array.isArray(documents)) {
+            setRequests(documents); // Ensure documents is an array and set it
+          } else {
+            console.error("Error: documents is not an array");
+            setRequests([]); // Set an empty array as a fallback
+          }
+        } catch (error) {
+          console.error("Error fetching requests:", error);
+          setRequests([]); // Set an empty array in case of an error
         }
-      } catch (error) {
-        console.error("Error fetching requests:", error);
-        setRequests([]); // Set an empty array in case of an error
       }
-    }
 
-    fetchRequests();
-  }, []);
+      fetchRequests();
+    }
+  }, [role]);
 
   const handleActionClick = (action) => {
     setModalAction(action);
@@ -52,6 +71,72 @@ function formatItems(items) {
     setComment("");
   };
 
+  //checking roles
+  const handleRole = (e) => {
+    e.preventDefault();
+    if (email && password) {
+      // Simulate setting a role (replace with actual API logic)
+      setRole("admin"); // Example role
+    } else {
+      alert("Please enter both email and password.");
+    }
+  };
+
+  if (role === null) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        {/* Header */}
+        <Header />
+
+        <div className="container mx-auto mt-8 flex-col md:flex-row gap-8 px-4 flex">
+          {/* Sidebar */}
+          <Sidebar />
+
+          {/* role confirm */}
+          <div className="flex w-full  justify-center min-h-screen bg-gray-100">
+            <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-lg">
+              <h2 className="text-2xl font-bold text-center text-gray-800">
+                Sign In
+              </h2>
+              <form onSubmit={handleRole} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-full px-4 py-2 mt-1 text-gray-900 bg-gray-100 border border-gray-600 rounded-lg focus:ring focus:ring-green-500 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="w-full px-4 py-2 mt-1 text-gray-900 bg-gray-100 border border-gray-600 rounded-lg focus:ring focus:ring-green-500 focus:outline-none"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full px-4 py-2 font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring focus:ring-green-500 focus:outline-none"
+                >
+                  Sign In
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -62,6 +147,7 @@ function formatItems(items) {
         <Sidebar />
 
         {/* Main Content */}
+
         <main className="flex-1 bg-gray-50 p-8">
           <h3 className="text-2xl text-black font-semibold mb-6 ml-4">
             Review Request
@@ -80,16 +166,22 @@ function formatItems(items) {
                   <div className="flex items-center justify-between">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-900 truncate ">
-                      {request.payee_name ? request.payee_name.charAt(0).toUpperCase() + request.payee_name.slice(1).toLowerCase() : ""}
+                        {request.payee_name
+                          ? request.payee_name.charAt(0).toUpperCase() +
+                            request.payee_name.slice(1).toLowerCase()
+                          : ""}
                       </p>
                       <p className="text-sm text-gray-500 truncate ">
-                        {request.branch? request.branch.charAt(0).toUpperCase() + request.branch.slice(1).toLowerCase()  : ""}
+                        {request.branch
+                          ? request.branch.charAt(0).toUpperCase() +
+                            request.branch.slice(1).toLowerCase()
+                          : ""}
                       </p>
                     </div>
                     <div className="flex items-center space-x-4">
                       <div className="text-base font-semibold text-gray-900">
                         &#8358;{request.total_amount}
-                      </div> 
+                      </div>
                       {expandedId === request.$id ? (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -128,8 +220,6 @@ function formatItems(items) {
 
                   {expandedId === request.$id && (
                     <div className="mt-4 p-4 gap-4 bg-gray-50 rounded-lg">
-                      
-                      
                       {/* Branch */}
                       <p className="text-sm text-gray-700">
                         {request.branch ? "Branch: " + request.branch : ""}
@@ -158,7 +248,9 @@ function formatItems(items) {
 
                       {/* Items */}
                       <p className="text-sm text-gray-700">
-                        {request.items ? "Items: " + formatItems(JSON.parse(request.items)) : ""}
+                        {request.items
+                          ? "Items: " + formatItems(JSON.parse(request.items))
+                          : ""}
                       </p>
 
                       {/* Description */}
@@ -211,19 +303,17 @@ function formatItems(items) {
                           : ""}
                       </p>
 
-                      
-
                       <div className="flex flex-wrap gap-4 mt-10">
-                        <button 
-                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                        //onClick={() => }
+                        <button
+                          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                          //onClick={() => }
                         >
                           AUTHORIZE
                         </button>
                         <button
-                         className="px-4 py-2 bg-gray-500 text-white  rounded hover:bg-gray-600"
-                         onClick={() => handleActionClick("RETURN")}
-                         >
+                          className="px-4 py-2 bg-gray-500 text-white  rounded hover:bg-gray-600"
+                          onClick={() => handleActionClick("RETURN")}
+                        >
                           RETURN
                         </button>
                       </div>
@@ -233,16 +323,14 @@ function formatItems(items) {
               </li>
             ))}
           </ul>
-
-         
         </main>
       </div>
 
       {/* Footer */}
       <Footer />
 
-       {/* Modal */}
-       {isModalOpen && (
+      {/* Modal */}
+      {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
             <h2 className="text-lg text-gray-700 font-semibold mb-4">
