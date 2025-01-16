@@ -4,9 +4,19 @@ import Link from "next/link";
 import Image from "next/image";
 import LOGO from "@/app/assets/LOGO.png"; // Update the path as per your project structure
 import { useState } from "react";
+import { logout } from "../appwriteFunctions";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+
+  const router = useRouter();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleLogout = () =>{
+    logout();
+    router.push('/login')
+  }
 
   return (
     <header className="bg-gray-100 shadow-md py-4">
@@ -70,6 +80,12 @@ const Header = () => {
           <Link href="#lms" className="text-gray-700 hover:text-blue-600 block py-2 md:py-0">
             L.M.A
           </Link>
+          <button
+          className="text-white bg-green-600 hover:bg-blue-700 px-4 py-2 rounded-md shadow-md block md:inline-block"
+          onClick={handleLogout}
+          >
+            logout
+          </button>
         </nav>
       </div>
     </header>

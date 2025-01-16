@@ -1,6 +1,9 @@
 "use client";
 
-import { databases, ID } from "./appwrite";
+import { databases, ID, account } from "./appwrite";
+import { useRouter } from "next/navigation";
+
+
 
 export function addRequestToDb(
   branch = null,
@@ -69,3 +72,29 @@ export async function addItemsToDb(items) {
 
   console.log("Document created with array:", response);
 }
+
+export async function logIn(email, password) {
+  const router = useRouter();
+
+  try {
+    const result = await account.createEmailPasswordSession(email, password);
+    router.push('/home')
+    return result;
+  } catch (error) {
+    console.error("Error during login:", error.message);
+    throw new Error("Login failed. Please check your credentials and try again.");
+  }
+}
+
+export async function logout() {
+  try {
+    const result = await account.deleteSession('current');
+    console.log("Session successfully deleted:", result);
+    return result;
+  } catch (error) {
+    console.error("Error during logout:", error.message);
+    throw new Error("Logout failed. Please try again.");
+  }
+}
+
+

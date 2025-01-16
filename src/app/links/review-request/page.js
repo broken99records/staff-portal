@@ -18,7 +18,7 @@ export default function ReviewRequest() {
   const [email, setEmail] = useState(""); // User email
   const [password, setPassword] = useState(""); // User password
   const [error, setError] = useState(""); // Error message for invalid login
-  const [role, setRole] = useState(null); // User role
+  const [role, setRole] = useState(""); // User role
   //array holding roles in the system
   const roleArray = [
     "officer",

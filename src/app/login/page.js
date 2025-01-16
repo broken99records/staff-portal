@@ -3,10 +3,30 @@
 import Image from "next/image";
 import LOGO from "@/app/assets/LOGO.png"
 //import staff from "@/app/assets/staffff.png"
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { account } from "../appwrite";
 
 export default function Login() {
+
+  //router
   const router = useRouter();
+
+  //state variables
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");  
+
+  const handleSubmit  = async () => {
+     try {
+        const result = await account.createEmailPasswordSession(email, password);
+        router.push('/home')
+        return result;
+      } catch (error) {
+        console.error("Error during login:", error.message);
+        throw new Error("Login failed. Please check your credentials and try again.");
+      }   
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Header */}
@@ -55,7 +75,7 @@ export default function Login() {
                   name="email"
                   className="mt-1 block text-gray-700 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   required
-                />
+                  onChange={(e) => setEmail(e.target.value)}                />
               </div>
               <div>
                 <label
@@ -70,12 +90,13 @@ export default function Login() {
                   name="password"
                   className="mt-1 block text-gray-700 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   required
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div>
                 <button
                   type="button"
-                  onClick={() => router.push("/home")}
+                  onClick={() => handleSubmit()}
                   className="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   Login
