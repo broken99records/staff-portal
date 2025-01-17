@@ -3,8 +3,6 @@
 import { databases, ID, account } from "./appwrite";
 import { useRouter } from "next/navigation";
 
-
-
 export function addRequestToDb(
   branch = null,
   department = null,
@@ -27,7 +25,7 @@ export function addRequestToDb(
       department,
       payee_name,
       payee_account,
-      items : JSON.stringify(items),
+      items: JSON.stringify(items),
       description,
       total_amount,
       invoice_amount,
@@ -78,17 +76,19 @@ export async function logIn(email, password) {
 
   try {
     const result = await account.createEmailPasswordSession(email, password);
-    router.push('/home')
+    router.push("/home");
     return result;
   } catch (error) {
     console.error("Error during login:", error.message);
-    throw new Error("Login failed. Please check your credentials and try again.");
+    throw new Error(
+      "Login failed. Please check your credentials and try again."
+    );
   }
 }
 
 export async function logout() {
   try {
-    const result = await account.deleteSession('current');
+    const result = await account.deleteSession("current");
     console.log("Session successfully deleted:", result);
     return result;
   } catch (error) {
@@ -97,4 +97,13 @@ export async function logout() {
   }
 }
 
-
+export async function getRole() {
+  try {
+    const result = await account.getPrefs();
+    console.log(result);
+    return result
+  } catch (error) {
+    console.error("Error getting user role:", error.message)
+    throw new Error("get role failed. please try again.")
+  }
+}

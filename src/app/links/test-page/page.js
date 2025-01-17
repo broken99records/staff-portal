@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useState } from 'react';
+import { getRole } from '@/app/appwriteFunctions';
+import { useEffect, useState } from 'react';
 
 const PettyCashAdvance = () => {
   const [request_type, setRequest_type] = useState("Petty Cash Advance");
@@ -11,6 +12,8 @@ const PettyCashAdvance = () => {
   const [total_amount, setTotalAmount] = useState("");
   const [items, setItems] = useState([{ item: "", description: "" }]);
   const [submittedData, setSubmittedData] = useState(null);
+
+  const [role, setRole] = useState(null)
 
   const handleItemChange = (index, field, value) => {
     const newItems = [...items];
@@ -52,6 +55,22 @@ const PettyCashAdvance = () => {
       console.error("Error:", error);
     }
   };
+
+  useEffect(() => {
+    async function fetchRole() {
+      try {
+        const userRole = await getRole();
+        setRole(userRole);
+      } catch (err) {
+        console.error("Error fetching role:", err.message);
+        setError("Unable to fetch role.");
+      }
+    }
+
+    fetchRole();
+  }, []);
+
+  
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
