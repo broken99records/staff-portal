@@ -3,9 +3,11 @@
 import Image from "next/image";
 import LOGO from "@/app/assets/LOGO.png"
 //import staff from "@/app/assets/staffff.png"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { account } from "../appwrite";
+import Cookies from "js-cookie";
+import { isUserLoggedIn } from "../appwriteFunctions";
 
 export default function Login() {
 
@@ -14,18 +16,47 @@ export default function Login() {
 
   //state variables
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");  
+  const [password, setPassword] = useState(""); 
+  const [loggedInUser, setLoggedInUser] = useState(null); 
 
   const handleSubmit  = async () => {
      try {
         const result = await account.createEmailPasswordSession(email, password);
-        router.push('/home')
+        
+        const user = await account.get();
+        //const user = await account.getSession('current');
+        console.log("User:", user);
+        setLoggedInUser(user);
+        //setting cookies
+        Cookies.set('loggedInUser', JSON.stringify(user), { expires: 1 });
+        router.push('/home');
         return result;
       } catch (error) {
         console.error("Error during login:", error.message);
         throw new Error("Login failed. Please check your credentials and try again.");
       }   
   }
+
+  useEffect(() => {
+    const checkUserLoginStatus = async () => {
+      try {
+        const user = await isUserLoggedIn();
+        console.log("this is the current user:" + user)
+        setLoggedInUser(user);        
+      } catch (error) {
+        console.error("Error checking user login status:", error.message);
+      }
+    };
+  
+    checkUserLoginStatus();
+  }, []);
+
+
+  useEffect(() => {
+    if (loggedInUser) {
+      router.push('/home'); // ✅ Navigate after rendering.
+    }
+  }, [loggedInUser]);
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">

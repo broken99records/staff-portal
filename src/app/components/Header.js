@@ -18,6 +18,8 @@ const Header = () => {
     router.push('/login')
   }
 
+  
+
   return (
     <header className="bg-gray-100 shadow-md py-4">
       <div className="container mx-auto px-4 flex justify-between items-center">
@@ -29,6 +31,7 @@ const Header = () => {
               alt="Logo"
               width={120} // Set a fixed width
               height={50}
+              style={{ width: 'auto', height: 'auto' }} // Ensure aspect ratio is maintained
               className="object-contain"
             />
           </Link>

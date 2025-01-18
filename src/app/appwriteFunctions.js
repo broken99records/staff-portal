@@ -2,6 +2,8 @@
 
 import { databases, ID, account } from "./appwrite";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+
 
 export function addRequestToDb(
   branch = null,
@@ -90,12 +92,17 @@ export async function logout() {
   try {
     const result = await account.deleteSession("current");
     console.log("Session successfully deleted:", result);
+    Cookies.remove('loggedInUser');
     return result;
   } catch (error) {
     console.error("Error during logout:", error.message);
+    Cookies.remove('loggedInUser');
     throw new Error("Logout failed. Please try again.");
   }
+ 
 }
+
+
 
 export async function getRole() {
   try {
@@ -105,5 +112,14 @@ export async function getRole() {
   } catch (error) {
     console.error("Error getting user role:", error.message)
     throw new Error("get role failed. please try again.")
+  }
+}
+
+export async function isUserLoggedIn(){
+  try {
+    const result = await account.get();
+    return result
+  } catch (error) {
+    
   }
 }
