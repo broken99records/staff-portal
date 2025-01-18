@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 
-const protectedRoutes = ["/links/", "/home", "/expense"];
+const protectedRoutes = ["/links/", "/expense"];
 
 export default async function middleware(req) {
   console.log("Middleware is working");
@@ -25,7 +25,7 @@ export default async function middleware(req) {
 
     if (!cookie && isProtected) {
       console.log("here:  " + cookie);
-      return NextResponse.redirect(new URL("/login", req.url));
+      return NextResponse.redirect(new URL("/", req.url));
     }
   } catch (e) {
     console.log('error in middleware.js  ' +e);

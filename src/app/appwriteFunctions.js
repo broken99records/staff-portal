@@ -51,7 +51,8 @@ export async function getAllRequests() {
   try {
     const response = await databases.listDocuments(
       "676a9c3d00142302757e",
-      "676a9d230039cefbd5b3"
+      "676a9d230039cefbd5b3",
+      
     );
     console.log(response);
     return response;
@@ -59,6 +60,25 @@ export async function getAllRequests() {
     console.log(error);
   }
 }
+
+export async function getRequestsByRole(role) {
+  try {
+    const response = await databases.listDocuments(
+      "676a9c3d00142302757e",
+      "676a9d230039cefbd5b3",
+      [
+        Query.equal('approved_by', [role]),
+        
+    ]
+      
+    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 export async function addItemsToDb(items) {
   const response = await databases.createDocument(

@@ -15,6 +15,7 @@ const geistMono = localFont({
 export const metadata = {
   title: "Ekondo Staff Portal",
   description: "",
+  
 };
 
 export default function RootLayout({ children }) {
