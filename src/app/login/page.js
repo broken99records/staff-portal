@@ -32,7 +32,8 @@ export default function Login() {
         router.push('/home');
         return result;
       } catch (error) {
-        console.error("Error during login:", error.message);
+        window.alert("Error during login:", error.message);
+        console.log("Error during login:", error.message);
         throw new Error("Login failed. Please check your credentials and try again.");
       }   
   }
