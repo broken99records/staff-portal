@@ -4,7 +4,7 @@ import Header from "@/app/components/Header"; // Adjust path as needed
 import Footer from "@/app/components/Footer"; // Adjust path as needed
 import Sidebar from "@/app/components/SideBar"; // Adjust path as needed
 import { useState, useEffect } from "react";
-import { getAllRequests } from "@/app/appwriteFunctions";
+import { getAllRequests, getRequestsByRole } from "@/app/appwriteFunctions";
 
 export default function ReviewRequest() {
   const [expandedId, setExpandedId] = useState(null);
@@ -19,6 +19,7 @@ export default function ReviewRequest() {
   const [password, setPassword] = useState(""); // User password
   const [error, setError] = useState(""); // Error message for invalid login
   const [role, setRole] = useState(""); // User role
+
   //array holding roles in the system
   const roleArray = [
     "officer",
@@ -44,7 +45,7 @@ export default function ReviewRequest() {
           //console.log("This is a test: documents:", documents);
 
           if (Array.isArray(documents)) {
-            setRequests(documents); // Ensure documents is an array and set it
+            //setRequests(documents); // Ensure documents is an array and set it
           } else {
             console.error("Error: documents is not an array");
             setRequests([]); // Set an empty array as a fallback
@@ -58,6 +59,30 @@ export default function ReviewRequest() {
       fetchRequests();
     }
   }, [role]);
+
+  useEffect(() => {
+    async function fetchRequests() {
+      try {
+        const response = await getRequestsByRole();
+        const { documents } = response; //Destructure only the documents
+
+        console.log("request by role is running .......");
+        console.log(response);
+        
+
+        if (Array.isArray(documents)) {
+          setRequests(documents); // Ensure documents is an array and set it
+        } else {
+          console.error("Error: documents is not an array");
+          setRequests([]); // Set an empty array as a fallback
+        }
+      } catch (error) {
+        console.error("Error fetching requests:", error);
+        setRequests([]); // Set an empty array in case of an error
+      }
+    }
+    fetchRequests();
+  }, []);
 
   const handleActionClick = (action) => {
     setModalAction(action);
@@ -81,8 +106,6 @@ export default function ReviewRequest() {
       alert("Please enter both email and password.");
     }
   };
-
-  
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -214,6 +237,13 @@ export default function ReviewRequest() {
                           : ""}
                       </p>
 
+                       {/* Approved BY */}
+                       <p className="text-sm text-gray-700">
+                        {request.narration
+                          ? "To be approved by: " + request.approved_by
+                          : "approved by: "}
+                      </p>
+
                       {/* Total Amount */}
                       <p className="text-sm  text-gray-700">
                         {request.total_amount
@@ -280,18 +310,29 @@ export default function ReviewRequest() {
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-            <h2 className="text-lg text-gray-700 font-semibold mb-4">
-              {modalAction === "AUTHORIZE"
-                ? "Add Comment for Authorization"
-                : "Add Comment for Return"}
-            </h2>
-            <textarea
-              className="w-full p-2 text-gray-700 border border-gray-800 rounded mb-4"
-              rows="4"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder="Add your comment here..."
-            ></textarea>
+            {modalAction === "RETURN" && (
+              <>
+                <h2 className="text-lg text-gray-700 font-semibold mb-4">
+                  Add Comment for Return
+                </h2>
+                <textarea
+                  className="w-full p-2 text-gray-700 border border-gray-800 rounded mb-4"
+                  rows="4"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="Add your comment here..."
+                ></textarea>
+              </>
+            )}
+
+            {modalAction === "AUTHORIZE" && (
+              <>
+                <h2 className="text-lg text-gray-700 font-semibold mb-4">
+                  CONFIRM AUTHORIZATION
+                </h2>
+              </>
+            )}
+
             <div className="flex justify-end gap-4">
               <button
                 className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"

@@ -1,6 +1,6 @@
 "use client";
 
-import { databases, ID, account } from "./appwrite";
+import { databases, Query, ID, account } from "./appwrite";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
@@ -61,25 +61,6 @@ export async function getAllRequests() {
   }
 }
 
-export async function getRequestsByRole(role) {
-  try {
-    const response = await databases.listDocuments(
-      "676a9c3d00142302757e",
-      "676a9d230039cefbd5b3",
-      [
-        Query.equal('approved_by', [role]),
-        
-    ]
-      
-    );
-    console.log(response);
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-
 export async function addItemsToDb(items) {
   const response = await databases.createDocument(
     "676a9c3d00142302757e",
@@ -122,24 +103,39 @@ export async function logout() {
  
 }
 
-
-
-export async function getRole() {
-  try {
-    const result = await account.getPrefs();
-    console.log(result);
-    return result
-  } catch (error) {
-    console.error("Error getting user role:", error.message)
-    throw new Error("get role failed. please try again.")
-  }
-}
-
 export async function isUserLoggedIn(){
   try {
     const result = await account.get();
     return result
   } catch (error) {
     
+  }
+}
+
+
+export async function getRole() {
+  try {
+    const result = await account.getPrefs();
+    console.log("User role:", result.role); // Ensure the role is accessed correctly from result.
+    return result.role;
+  } catch (error) {
+    console.error("Error getting user role:", error.message);
+    throw new Error("Failed to get user role. Please try again.");
+  }
+}
+
+export async function getRequestsByRole() {
+  try {
+    const role = await getRole(); // Retrieve the role dynamically.
+    const response = await databases.listDocuments(
+      "676a9c3d00142302757e", // Replace with your database ID.
+      "676a9d230039cefbd5b3", // Replace with your collection ID.
+      [Query.equal("approved_by", role)] // Ensure the query matches your schema.
+    );
+    console.log("Requests by role:", response);
+    return response;
+  } catch (error) {
+    console.error("Error getting requests by role:", error.message);
+    throw new Error("Failed to get requests. Please try again.");
   }
 }
