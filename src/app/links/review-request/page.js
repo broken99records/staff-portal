@@ -4,7 +4,8 @@ import Header from "@/app/components/Header"; // Adjust path as needed
 import Footer from "@/app/components/Footer"; // Adjust path as needed
 import Sidebar from "@/app/components/SideBar"; // Adjust path as needed
 import { useState, useEffect } from "react";
-import { getAllRequests, getRequestsByRole } from "@/app/appwriteFunctions";
+import {updateApprovedBy, getAllRequests, getRequestsByRole } from "@/app/appwriteFunctions";
+import { notifyUser } from "@/app/functions";
 
 export default function ReviewRequest() {
   const [expandedId, setExpandedId] = useState(null);
@@ -19,16 +20,28 @@ export default function ReviewRequest() {
   const [password, setPassword] = useState(""); // User password
   const [error, setError] = useState(""); // Error message for invalid login
   const [role, setRole] = useState(""); // User role
+  //requestID to deal with
+  const [requestID, setRequestID] = useState(null);
 
   //array holding roles in the system
   const roleArray = [
     "officer",
     "Recommender",
+    "approver",
     "Reviewer",
+    "supervisor",
     "MD",
     "Account",
     "Super",
   ];
+
+  //function to handle authorization
+  const handleAuthorization = () => {    
+    console.log("Authorization is running .......");
+    notifyUser(requestID)
+    updateApprovedBy(requestID)
+    setIsModalOpen(false)
+  };
 
   function formatItems(items) {
     return items
@@ -84,7 +97,9 @@ export default function ReviewRequest() {
     fetchRequests();
   }, []);
 
-  const handleActionClick = (action) => {
+  const handleActionClick = (action, requestID) => {
+    console.log(requestID);
+    setRequestID(requestID);
     setModalAction(action);
     setIsModalOpen(true);
   };
@@ -239,9 +254,9 @@ export default function ReviewRequest() {
 
                        {/* Approved BY */}
                        <p className="text-sm text-gray-700">
-                        {request.narration
-                          ? "To be approved by: " + request.approved_by
-                          : "approved by: "}
+                        {request.approved_by
+                          ? "To Be Approved By: " + request.approved_by
+                          : "Approved By: "}
                       </p>
 
                       {/* Total Amount */}
@@ -283,13 +298,13 @@ export default function ReviewRequest() {
                       <div className="flex flex-wrap gap-4 mt-10">
                         <button
                           className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                          onClick={() => handleActionClick("AUTHORIZE")}
+                          onClick={() => handleActionClick("AUTHORIZE", request.$id)}
                         >
                           AUTHORIZE
                         </button>
                         <button
                           className="px-4 py-2 bg-gray-500 text-white  rounded hover:bg-gray-600"
-                          onClick={() => handleActionClick("RETURN")}
+                          onClick={() => handleActionClick("RETURN", request.$id)}
                         >
                           RETURN
                         </button>
@@ -322,18 +337,7 @@ export default function ReviewRequest() {
                   onChange={(e) => setComment(e.target.value)}
                   placeholder="Add your comment here..."
                 ></textarea>
-              </>
-            )}
-
-            {modalAction === "AUTHORIZE" && (
-              <>
-                <h2 className="text-lg text-gray-700 font-semibold mb-4">
-                  CONFIRM AUTHORIZATION
-                </h2>
-              </>
-            )}
-
-            <div className="flex justify-end gap-4">
+                <div className="flex justify-end gap-4">
               <button
                 className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
                 onClick={() => setIsModalOpen(false)}
@@ -347,6 +351,32 @@ export default function ReviewRequest() {
                 Submit
               </button>
             </div>
+              </>
+            )}
+
+            {modalAction === "AUTHORIZE" && (
+              <>
+                <h2 className="text-lg text-gray-700 font-semibold mb-4">
+                  CONFIRM AUTHORIZATION
+                </h2>
+                <div className="flex justify-end gap-4">
+              <button
+                className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                onClick={ () => handleAuthorization()}
+              >
+                Submit
+              </button>
+            </div>
+              </>
+            )}
+
+            
           </div>
         </div>
       )}
