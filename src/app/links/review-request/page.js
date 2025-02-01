@@ -4,26 +4,27 @@ import Header from "@/app/components/Header"; // Adjust path as needed
 import Footer from "@/app/components/Footer"; // Adjust path as needed
 import Sidebar from "@/app/components/SideBar"; // Adjust path as needed
 import { useState, useEffect } from "react";
-import {updateApprovedBy, getAllRequests, getRequestsByRole } from "@/app/appwriteFunctions";
+import { updateApprovedBy, getAllRequests, getRequestsByRole } from "@/app/appwriteFunctions";
 import { notifyUser } from "@/app/functions";
 
 export default function ReviewRequest() {
+  // State variables
   const [expandedId, setExpandedId] = useState(null);
   const [requests, setRequests] = useState(null);
-  //modal
+  // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalAction, setModalAction] = useState(""); // "AUTHORIZE" or "RETURN"
   const [comment, setComment] = useState(""); // User's comment
-  //confirm role of the user
+  // Authentication state
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Track auth status
   const [email, setEmail] = useState(""); // User email
   const [password, setPassword] = useState(""); // User password
   const [error, setError] = useState(""); // Error message for invalid login
   const [role, setRole] = useState(""); // User role
-  //requestID to deal with
+  // Request ID to handle
   const [requestID, setRequestID] = useState(null);
 
-  //array holding roles in the system
+  // Array holding roles in the system
   const roleArray = [
     "officer",
     "Recommender",
@@ -35,30 +36,31 @@ export default function ReviewRequest() {
     "Super",
   ];
 
-  //function to handle authorization
-  const handleAuthorization = () => {    
+  // Function to handle authorization
+  const handleAuthorization = () => {
     console.log("Authorization is running .......");
-    notifyUser(requestID)
-    updateApprovedBy(requestID)
-    setIsModalOpen(false)
+    notifyUser(requestID);
+    updateApprovedBy(requestID);
+    setIsModalOpen(false);
   };
 
+  // Function to format items
   function formatItems(items) {
     return items
       .map((item) => ` - ${item.item}: ${item.description}\n`)
       .join(",   ");
   }
 
+  // Fetch all requests when role changes
   useEffect(() => {
     if (role !== null) {
       async function fetchRequests() {
         try {
           const response = await getAllRequests();
           const { documents } = response; // Destructure only the documents
-          //console.log("This is a test: documents:", documents);
 
           if (Array.isArray(documents)) {
-            //setRequests(documents); // Ensure documents is an array and set it
+            // Ensure documents is an array and set it
           } else {
             console.error("Error: documents is not an array");
             setRequests([]); // Set an empty array as a fallback
@@ -73,15 +75,15 @@ export default function ReviewRequest() {
     }
   }, [role]);
 
+  // Fetch requests by role on component mount
   useEffect(() => {
     async function fetchRequests() {
       try {
         const response = await getRequestsByRole();
-        const { documents } = response; //Destructure only the documents
+        const { documents } = response; // Destructure only the documents
 
         console.log("request by role is running .......");
         console.log(response);
-        
 
         if (Array.isArray(documents)) {
           setRequests(documents); // Ensure documents is an array and set it
@@ -97,6 +99,7 @@ export default function ReviewRequest() {
     fetchRequests();
   }, []);
 
+  // Handle action button click
   const handleActionClick = (action, requestID) => {
     console.log(requestID);
     setRequestID(requestID);
@@ -104,6 +107,7 @@ export default function ReviewRequest() {
     setIsModalOpen(true);
   };
 
+  // Handle comment submission
   const handleSubmitComment = () => {
     console.log(`Action: ${modalAction}, Comment: ${comment}`);
     // Handle the comment submission logic here (e.g., send to API)
@@ -111,7 +115,7 @@ export default function ReviewRequest() {
     setComment("");
   };
 
-  //checking roles
+  // Handle role confirmation
   const handleRole = (e) => {
     e.preventDefault();
     if (email && password) {
@@ -132,13 +136,12 @@ export default function ReviewRequest() {
         <Sidebar />
 
         {/* Main Content */}
-
         <main className="flex-1 bg-gray-50 p-8">
           <h3 className="text-2xl text-black font-semibold mb-6 ml-4">
             Review Request
           </h3>
 
-          <ul className="max-w-lg divide-y text-black  ">
+          <ul className="max-w-lg divide-y text-black">
             {requests?.map((request) => (
               <li
                 key={request.$id}
@@ -150,13 +153,13 @@ export default function ReviewRequest() {
                 <div className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate ">
+                      <p className="text-sm font-medium text-gray-900 truncate">
                         {request.payee_name
                           ? request.payee_name.charAt(0).toUpperCase() +
                             request.payee_name.slice(1).toLowerCase()
                           : ""}
                       </p>
-                      <p className="text-sm text-gray-500 truncate ">
+                      <p className="text-sm text-gray-500 truncate">
                         {request.branch
                           ? request.branch.charAt(0).toUpperCase() +
                             request.branch.slice(1).toLowerCase()
