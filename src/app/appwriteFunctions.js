@@ -8,7 +8,7 @@ const roleArray = [
   "officer",
   "Recommender",
   "approver",
-  "Reviewer",
+  "reviewer",
   "supervisor",
   "MD",
   "Account",
