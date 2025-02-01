@@ -6,13 +6,10 @@ import Cookies from "js-cookie";
 
 const roleArray = [
   "officer",
-  "Recommender",
-  "approver",
-  "reviewer",
-  "supervisor",
-  "MD",
-  "Account",
-  "Super",
+   "authorizer",
+   "reviewer",
+    "approver", 
+    "Account"
 ];
 
 export function addRequestToDb(

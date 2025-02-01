@@ -27,13 +27,10 @@ export default function ReviewRequest() {
   // Array holding roles in the system
   const roleArray = [
     "officer",
-    "Recommender",
-    "approver",
-    "Reviewer",
-    "supervisor",
-    "MD",
-    "Account",
-    "Super",
+   "authorizer",
+   "reviewer",
+    "approver", 
+    "Account"
   ];
 
   // Function to handle authorization
@@ -42,6 +39,7 @@ export default function ReviewRequest() {
     notifyUser(requestID);
     updateApprovedBy(requestID);
     setIsModalOpen(false);
+    //window.location.reload()
   };
 
   // Function to format items
