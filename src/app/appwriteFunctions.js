@@ -23,7 +23,9 @@ export function addRequestToDb(
   invoice_amount = null,
   cash_advance = null,
   less_what = null,
-  refund_reimbursement = null
+  refund_reimbursement = null,
+  request_type = null,
+  approved_by = null,
 ) {
   const promise = databases.createDocument(
     "676a9c3d00142302757e",
@@ -41,6 +43,8 @@ export function addRequestToDb(
       cash_advance,
       less_what,
       refund_reimbursement,
+      request_type,
+      approved_by,
     }
   );
 

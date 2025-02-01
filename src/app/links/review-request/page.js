@@ -44,10 +44,12 @@ export default function ReviewRequest() {
 
   // Function to format items
   function formatItems(items) {
+    if (items ==! null){
     return items
       .map((item) => ` - ${item.item}: ${item.description}\n`)
       .join(",   ");
   }
+}
 
   // Fetch all requests when role changes
   useEffect(() => {

@@ -4,6 +4,7 @@ import Header from "@/app/components/Header"; // Adjust path as needed
 import Footer from "@/app/components/Footer"; // Adjust path as needed
 import Sidebar from "@/app/components/SideBar"; // Adjust path as needed
 import { useEffect, useState } from "react";
+import { addRequestToDb } from "@/app/appwriteFunctions"; //
 
 export default function cash_advance() {
   // State variables
@@ -17,6 +18,8 @@ export default function cash_advance() {
   const [less_what, setLessWhat] = useState("3445554");
   const [amount, setAmount] = useState("4745848399");
   const [request_type, setRequest_type] = useState("Cash Advance");
+  //variable for approved by
+  const [approved_by, setApproved_by] = useState("authorizer");
   //might not need the following
 
   const [submittedData, setSubmittedData] = useState(null); // To store response or confirmation
@@ -24,6 +27,22 @@ export default function cash_advance() {
   // Function to handle form submission
 const handleSubmit = async () => {
   console.log("running..........");
+
+  addRequestToDb(   
+    branch_name,  
+    department,
+    payee_name,
+    payee_account,
+    null,
+    null,
+    amount,
+    invoice_amount,
+    cash_advance,
+    less_what,
+    null,
+    request_type,
+    approved_by,
+  )
   
   // Data to be sent in the POST request
   const data = {
@@ -39,7 +58,9 @@ const handleSubmit = async () => {
     amount,
   };
 
-  console.log(data); // Testing
+  //console.log(data); // Testing
+
+ 
 
   // Send POST request when form is submitted
   try {
