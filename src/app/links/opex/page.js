@@ -4,6 +4,7 @@ import Header from "@/app/components/Header"; // Adjust path as needed
 import Footer from "@/app/components/Footer"; // Adjust path as needed
 import Sidebar from "@/app/components/SideBar"; // Adjust path as needed
 import { useState, useEffect } from "react";
+import { addRequestToDb } from "@/app/appwriteFunctions";
 
 export default function Opex() {
   // State variables
@@ -18,11 +19,31 @@ export default function Opex() {
   const [amount, setAmount] = useState("4745848399");
   const [refund_reimbursement, setRefundReimbursement] = useState("test");
   const [request_type, setRequest_type] = useState("Opex/Capex Retirement");
+  //variable for approved by
+  const [approved_by, setApproved_by] = useState("authorizer");
 
   const [submittedData, setSubmittedData] = useState(null); // To store response or confirmation
 
   const handleSubmit = async () => {
     console.log("running..........");
+
+    //data to be added to the request db
+    addRequestToDb(
+      branch_name,
+      department,
+      payee_name,
+      payee_account,
+      null,
+      null,
+      narration,
+      null,
+      invoice_amount,
+      cash_advance,
+      less_what,
+      refund_reimbursement,
+      request_type,
+      approved_by
+    );
 
     const data = {
       department,

@@ -9,7 +9,7 @@ const roleArray = [
    "authorizer",
    "reviewer",
     "approver", 
-    "Account"
+    "account"
 ];
 
 export function addRequestToDb(
@@ -19,6 +19,7 @@ export function addRequestToDb(
   payee_account = null,
   items = null,
   description = null,
+  narration = null,
   total_amount = null,
   invoice_amount = null,
   cash_advance = null,

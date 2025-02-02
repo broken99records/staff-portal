@@ -19,9 +19,11 @@ const PettyCashAdvance = () => {
   const [total_amount, setTotalAmount] = useState("test");
   const [description, setDescription] = useState(null);
   const [items, setItems] = useState([{ item: "", description: "" }]);
+  const [approved_by, setApproved_by] = useState("authorizer"); // To store response or confirmation
   const [submittedData, setSubmittedData] = useState(null); // To store response or confirmation
   //loading variable
-  const [loading, setloading] = useState(false)
+  const [loading, setloading] = useState(false);
+  //
 
   const handleItemChange = (index, field, value) => {
     const newItems = [...items];
@@ -39,7 +41,7 @@ const PettyCashAdvance = () => {
 
   const handleSubmit = async () => {
     console.log("running..........");
-    setloading(true)
+    setloading(true);
 
     //adds data to the request database
     addRequestToDb(
@@ -48,7 +50,15 @@ const PettyCashAdvance = () => {
       payee_name,
       payee_account,
       items,
-      total_amount
+      description,
+      null,
+      total_amount,
+      null,
+      null,
+      null,
+      null,
+      request_type,
+      approved_by
     );
 
     //data to be sent to email notification system
@@ -83,11 +93,11 @@ const PettyCashAdvance = () => {
       const result = await response.json();
       setSubmittedData(result);
       console.log("Data submitted successfully:", result);
-      setloading(false)
-      window.alert("Petty Cash Advance Submitted" )
+      setloading(false);
+      window.alert("Petty Cash Advance Submitted");
     } catch (error) {
       console.error("Error submitting data:", error);
-      setloading(false)
+      setloading(false);
     }
   };
 
