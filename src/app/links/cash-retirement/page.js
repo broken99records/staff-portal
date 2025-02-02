@@ -4,6 +4,7 @@ import Header from "@/app/components/Header";
 import Sidebar from "@/app/components/SideBar";
 import Footer from "@/app/components/Footer";
 import { useState, useEffect } from "react";
+import { addRequestToDb } from "@/app/appwriteFunctions";
 
 const PettyCashRetirement = () => {
   const [request_type, setRequest_type] = useState("Cash Retirement");
@@ -16,9 +17,28 @@ const PettyCashRetirement = () => {
   const [description, setDescription] = useState("this is a test");
   const [total_amount, setTotalAmount] = useState("test");
   const [submittedData, setSubmittedData] = useState(null); // To store response or confirmation
+  const [approved_by, setApproved_by] = useState('authorizer'); // To store response or confirmation
 
   const handleSubmit = async () => {
     console.log("running..........");
+
+
+    //data to be added to the request db
+    addRequestToDb(
+      (branch_name ),
+      (department ),
+      (payee_name ),
+      (payee_account ),
+      (items ),
+      (description ),
+      (total_amount ),
+      (null ),
+      (null ),
+      (null ),
+      (null ),
+      (request_type ),
+      (approved_by )
+    );
 
     // Data to be sent in the POST request
     const data = {
@@ -37,7 +57,7 @@ const PettyCashRetirement = () => {
 
     // Send POST request when form is submitted
     try {
-      let response = fetch(
+      let response = await fetch(
         "https://mail-setup.onrender.com/pettycashretirement",
         {
           method: "POST",
@@ -69,7 +89,6 @@ const PettyCashRetirement = () => {
     }
   }, [submittedData]);
 
-
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -84,7 +103,7 @@ const PettyCashRetirement = () => {
         <div className="flex-1 p-4 text-gray-700 bg-gray-100 rounded-lg shadow-md">
           <h3 className="text-2xl font-semibold mb-4">Petty Cash Retirement</h3>
 
-          <form className="space-y-6">
+          <div className="space-y-6">
             <div className="grid grid-cols-2 gap-6">
               <div>
                 <label htmlFor="branch" className="block">
@@ -119,7 +138,7 @@ const PettyCashRetirement = () => {
                   type="text"
                   id="item"
                   className="w-full p-2 border rounded border-gray-400"
-                  onChange={(e) => setItem(e.target.value)}
+                  onChange={(e) => setItems(e.target.value)}
                 />
               </div>
               <div>
@@ -199,7 +218,7 @@ const PettyCashRetirement = () => {
               <button
                 type="submit"
                 className="bg-green-500 text-white py-2 px-4 rounded"
-                onClick={handleSubmit}
+                onClick={()=>handleSubmit()}
               >
                 Originate
               </button>
@@ -213,7 +232,7 @@ const PettyCashRetirement = () => {
                 Approve
               </button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
 
