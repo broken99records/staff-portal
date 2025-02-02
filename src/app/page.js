@@ -1,7 +1,10 @@
+"use client"
+
 // pages/buttonPage.js
 import Link from "next/link";
 import Image from "next/image";
 import LOGO from "@/app/assets/LOGO.png"; // Update the path as per your project structure
+import { logout } from "./appwriteFunctions";
 
 export default function entry() {
   return (
@@ -20,7 +23,10 @@ export default function entry() {
           </header>
     <div className="flex h-screen items-center justify-center bg-gray-100">
       <Link href="/login">
-        <button className="px-6 py-3 text-white bg-green-500 hover:bg-green-600 rounded-lg text-lg font-medium">
+        <button 
+        className="px-6 py-3 text-white bg-green-500 hover:bg-green-600 rounded-lg text-lg font-medium"
+        onClick={() => logout()}
+        >
           Go to Log In
         </button>
       </Link>
