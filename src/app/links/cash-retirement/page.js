@@ -17,27 +17,50 @@ const PettyCashRetirement = () => {
   const [description, setDescription] = useState("this is a test");
   const [total_amount, setTotalAmount] = useState("test");
   const [submittedData, setSubmittedData] = useState(null); // To store response or confirmation
-  const [approved_by, setApproved_by] = useState('authorizer'); // To store response or confirmation
+  const [approved_by, setApproved_by] = useState("authorizer"); // To store response or confirmation
+  //recipient variables
+  const [recipient, setRecipient] = useState("");
+  const [recipientEmail, setRecipientEmail] = useState("");
+  const [recipientIndex, setRecipientIndex] = useState(""); // Store index
 
+  //recipients array
+  const recipients = [
+    { name: "Finance Department", email: "finance@example.com" },
+    { name: "Branch Manager", email: "manager@example.com" },
+    { name: "Human Resources", email: "hr@example.com" },
+  ];
+
+  //handles selecting recipients from drop down
+  const handleRecipientChange = (e) => {
+    const index = e.target.value;
+    setRecipientIndex(index);
+    setRecipient(recipients[index] !== "" ? recipients[index].name : "");
+    setRecipientEmail(index !== "" ? recipients[index].email : "");
+  };
+
+  useEffect(() => {
+    if (recipient) {
+      console.log(recipient, recipientEmail, recipientIndex);
+    }
+  }, [recipient]);
   const handleSubmit = async () => {
     console.log("running..........");
 
-
     //data to be added to the request db
     addRequestToDb(
-      (branch_name ),
-      (department ),
-      (payee_name ),
-      (payee_account ),
-      (items ),
-      (description ),
-      (total_amount ),
-      (null ),
-      (null ),
-      (null ),
-      (null ),
-      (request_type ),
-      (approved_by )
+      branch_name,
+      department,
+      payee_name,
+      payee_account,
+      items,
+      description,
+      total_amount,
+      null,
+      null,
+      null,
+      null,
+      request_type,
+      approved_by
     );
 
     // Data to be sent in the POST request
@@ -203,6 +226,20 @@ const PettyCashRetirement = () => {
               />
             </div>
 
+            <label className="block text-gray-700 mt-4 mb-1">Recipient:</label>
+            <select
+              className="w-full p-2 mb-4 border text-gray-700 border-gray-500 rounded"
+              value={recipientIndex}
+              onChange={handleRecipientChange}
+            >
+              <option value=""></option>
+              {recipients.map((rec, index) => (
+                <option key={index} value={index}>
+                  {rec.name}
+                </option>
+              ))}
+            </select>
+
             <div>
               <label htmlFor="receipt" className="block">
                 Upload Receipt
@@ -218,7 +255,7 @@ const PettyCashRetirement = () => {
               <button
                 type="submit"
                 className="bg-green-500 text-white py-2 px-4 rounded"
-                onClick={()=>handleSubmit()}
+                onClick={() => handleSubmit()}
               >
                 Originate
               </button>

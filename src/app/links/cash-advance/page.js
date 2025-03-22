@@ -24,70 +24,95 @@ export default function cash_advance() {
 
   const [submittedData, setSubmittedData] = useState(null); // To store response or confirmation
 
-  // Function to handle form submission
-const handleSubmit = async () => {
-  console.log("running..........");
+  //recipient variables
+  const [recipient, setRecipient] = useState("");
+  const [recipientEmail, setRecipientEmail] = useState("");
+  const [recipientIndex, setRecipientIndex] = useState(""); // Store index
 
-  addRequestToDb(   
-    branch_name,  
-    department,
-    payee_name,
-    payee_account,
-    null,
-    null,
-    amount,
-    invoice_amount,
-    cash_advance,
-    less_what,
-    null,
-    request_type,
-    approved_by,
-  )
-  
-  // Data to be sent in the POST request
-  const data = {
-    department,
-    request_type,
-    branch_name,
-    payee_name,
-    payee_account,
-    invoice_amount,
-    cash_advance,
-    narration,
-    less_what,
-    amount,
+  //recipients array
+  const recipients = [
+    { name: "Finance Department", email: "finance@example.com" },
+    { name: "Branch Manager", email: "manager@example.com" },
+    { name: "Human Resources", email: "hr@example.com" },
+  ];
+
+  //handles selecting recipients from drop down
+  const handleRecipientChange = (e) => {
+    const index = e.target.value;
+    setRecipientIndex(index);
+    setRecipient(recipients[index] !== "" ? recipients[index].name : "");
+    setRecipientEmail(index !== "" ? recipients[index].email : "");
   };
 
-  //console.log(data); // Testing
-
- 
-
-  // Send POST request when form is submitted
-  try {
-    let response = await fetch("https://mail-setup.onrender.com/cashadvance", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    // Check if the response is successful
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+  useEffect(() => {
+    if (recipient) {
+      console.log(recipient, recipientEmail, recipientIndex);
     }
+  }, [recipient]);
 
-    // Parse the response JSON
-    const result = await response.json();
-    setSubmittedData(result); // Store response data
-    console.log("Data submitted successfully:", result);
-  }
-   catch (error) {
-    console.log('error at post method')
-    console.error("Error submitting data:", error);
-  }
-};
+  // Function to handle form submission
+  const handleSubmit = async () => {
+    console.log("running..........");
 
+    addRequestToDb(
+      branch_name,
+      department,
+      payee_name,
+      payee_account,
+      null,
+      null,
+      amount,
+      invoice_amount,
+      cash_advance,
+      less_what,
+      null,
+      request_type,
+      approved_by
+    );
+
+    // Data to be sent in the POST request
+    const data = {
+      department,
+      request_type,
+      branch_name,
+      payee_name,
+      payee_account,
+      invoice_amount,
+      cash_advance,
+      narration,
+      less_what,
+      amount,
+    };
+
+    //console.log(data); // Testing
+
+    // Send POST request when form is submitted
+    try {
+      let response = await fetch(
+        "https://mail-setup.onrender.com/cashadvance",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      // Check if the response is successful
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // Parse the response JSON
+      const result = await response.json();
+      setSubmittedData(result); // Store response data
+      console.log("Data submitted successfully:", result);
+    } catch (error) {
+      console.log("error at post method");
+      console.error("Error submitting data:", error);
+    }
+  };
 
   useEffect(() => {
     if (submittedData) {
@@ -222,7 +247,6 @@ const handleSubmit = async () => {
                 onChange={(e) => setLessWhat(e.target.value)}
               />
             </div>
-
             <div>
               <label className="block mb-2 font-medium" htmlFor="amount">
                 Amount:
@@ -235,7 +259,23 @@ const handleSubmit = async () => {
                 onChange={(e) => setAmount(e.target.value)}
               />
             </div>
+            
+            
           </section>
+
+          <label className="block text-gray-700 mt-4 mb-1">Recipient:</label>
+            <select
+              className="w-full p-2 border mb-4 text-gray-700 border-gray-500 rounded"
+              value={recipientIndex}
+              onChange={handleRecipientChange}
+            >
+              <option value=""> Choose the recipient      </option>
+              {recipients.map((rec, index) => (
+                <option key={index} value={index}>
+                  {rec.name}
+                </option>
+              ))}
+            </select>
 
           <form className="mb-8">
             <label

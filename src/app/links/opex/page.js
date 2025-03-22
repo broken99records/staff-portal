@@ -23,7 +23,31 @@ export default function Opex() {
   const [approved_by, setApproved_by] = useState("authorizer");
 
   const [submittedData, setSubmittedData] = useState(null); // To store response or confirmation
+  //recipient variables
+  const [recipient, setRecipient] = useState("");
+  const [recipientEmail, setRecipientEmail] = useState("");
+  const [recipientIndex, setRecipientIndex] = useState(""); // Store index
 
+  //recipients array
+  const recipients = [
+    { name: "Finance Department", email: "finance@example.com" },
+    { name: "Branch Manager", email: "manager@example.com" },
+    { name: "Human Resources", email: "hr@example.com" },
+  ];
+
+  //handles selecting recipients from drop down 
+  const handleRecipientChange = (e) => {
+    const index = e.target.value;
+    setRecipientIndex(index);
+    setRecipient(recipients[index] !== "" ? recipients[index].name : "");
+    setRecipientEmail(index !== "" ? recipients[index].email : "");
+  };
+
+  useEffect(() => {
+    if (recipient) {
+      console.log(recipient, recipientEmail, recipientIndex);
+    }
+  }, [recipient]);
   const handleSubmit = async () => {
     console.log("running..........");
 
