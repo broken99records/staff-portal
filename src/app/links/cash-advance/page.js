@@ -26,7 +26,7 @@ export default function cash_advance() {
 
   //recipient variables
   const [recipient, setRecipient] = useState("");
-  const [recipientEmail, setRecipientEmail] = useState("");
+  const [recipientEmail, setRecipientEmail] = useState("email@ekondomfb.com");
   const [recipientIndex, setRecipientIndex] = useState(""); // Store index
 
   //recipients array
@@ -61,13 +61,15 @@ export default function cash_advance() {
       payee_account,
       null,
       null,
+      null,
       amount,
       invoice_amount,
       cash_advance,
       less_what,
       null,
       request_type,
-      approved_by
+      approved_by,
+      recipientEmail,
     );
 
     // Data to be sent in the POST request
@@ -82,9 +84,10 @@ export default function cash_advance() {
       narration,
       less_what,
       amount,
+      recipientEmail,
     };
 
-    //console.log(data); // Testing
+    console.log(data); // Testing
 
     // Send POST request when form is submitted
     try {
@@ -137,7 +140,7 @@ export default function cash_advance() {
             <div>
               <form>
                 <label className="block mb-2 font-medium" htmlFor="branch_name">
-                  branch name:
+                  Branch name:
                 </label>
                 <input
                   type="text"

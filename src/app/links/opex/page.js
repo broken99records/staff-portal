@@ -11,7 +11,7 @@ export default function Opex() {
   const [department, setDepartment] = useState("IT");
   const [branch_name, setBranchName] = useState("TEST");
   const [payee_name, setPayeeName] = useState("Ama");
-  const [payee_account, setPayeeAccount] = useState("eshiet");
+  const [payee_account, setPayeeAccount] = useState("Eshiet");
   const [invoice_amount, setInvoiceAmount] = useState("3344343334");
   const [cash_advance, setCashAdvance] = useState("34343434");
   const [narration, setNarration] = useState("hello world, this is a test");
@@ -48,6 +48,8 @@ export default function Opex() {
       console.log(recipient, recipientEmail, recipientIndex);
     }
   }, [recipient]);
+
+
   const handleSubmit = async () => {
     console.log("running..........");
 
@@ -66,7 +68,8 @@ export default function Opex() {
       less_what,
       refund_reimbursement,
       request_type,
-      approved_by
+      approved_by,
+      recipientEmail
     );
 
     const data = {
@@ -81,6 +84,7 @@ export default function Opex() {
       narration,
       less_what,
       amount,
+      recipientEmail,
     };
 
     console.log(data);
@@ -281,6 +285,23 @@ export default function Opex() {
                 onChange={(e) => setAmount(e.target.value)}
               />
             </div>
+
+
+          <div>
+            <label className="block text-gray-700 mt-4 mb-1">Recipient:</label>
+          <select
+            className="w-full p-2 mb-4 border text-gray-700 border-gray-500 rounded"
+            value={recipientIndex}
+            onChange={handleRecipientChange}
+          >
+            <option value="">Choose The Recipient</option>
+            {recipients.map((rec, index) => (
+              <option key={index} value={index}>
+                {rec.name}
+              </option>
+            ))}
+          </select>
+          </div>
 
             {/* File Upload */}
             <div>

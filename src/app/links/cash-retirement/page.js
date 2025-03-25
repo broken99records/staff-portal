@@ -15,7 +15,7 @@ const PettyCashRetirement = () => {
   const [department, setDepartment] = useState("test");
   const [payee_account, setPayeeAccount] = useState("test");
   const [description, setDescription] = useState("this is a test");
-  const [total_amount, setTotalAmount] = useState("test");
+  const [total_amount, setTotalAmount] = useState("44444444555556666");
   const [submittedData, setSubmittedData] = useState(null); // To store response or confirmation
   const [approved_by, setApproved_by] = useState("authorizer"); // To store response or confirmation
   //recipient variables
@@ -54,13 +54,15 @@ const PettyCashRetirement = () => {
       payee_account,
       items,
       description,
+      null,
       total_amount,
       null,
       null,
       null,
       null,
       request_type,
-      approved_by
+      approved_by,
+      recipientEmail,
     );
 
     // Data to be sent in the POST request
@@ -74,9 +76,10 @@ const PettyCashRetirement = () => {
       amount,
       description,
       total_amount,
+      recipientEmail,
     };
 
-    console.log(data); // Testing
+   // console.log(data); // Testing
 
     // Send POST request when form is submitted
     try {
@@ -226,19 +229,21 @@ const PettyCashRetirement = () => {
               />
             </div>
 
+            <div>
             <label className="block text-gray-700 mt-4 mb-1">Recipient:</label>
-            <select
-              className="w-full p-2 mb-4 border text-gray-700 border-gray-500 rounded"
-              value={recipientIndex}
-              onChange={handleRecipientChange}
-            >
-              <option value=""></option>
-              {recipients.map((rec, index) => (
-                <option key={index} value={index}>
-                  {rec.name}
-                </option>
-              ))}
-            </select>
+          <select
+            className="w-full p-2 mb-4 border text-gray-700 border-gray-500 rounded"
+            value={recipientIndex}
+            onChange={handleRecipientChange}
+          >
+            <option value="">Choose The Recipient</option>
+            {recipients.map((rec, index) => (
+              <option key={index} value={index}>
+                {rec.name}
+              </option>
+            ))}
+          </select>
+          </div>
 
             <div>
               <label htmlFor="receipt" className="block">

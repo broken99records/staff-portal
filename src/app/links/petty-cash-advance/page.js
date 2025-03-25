@@ -36,7 +36,7 @@ const PettyCashAdvance = () => {
     { name: "Human Resources", email: "hr@example.com" },
   ];
 
-  //handles selecting recipients from drop down 
+  //handles selecting recipients from drop down
   const handleRecipientChange = (e) => {
     const index = e.target.value;
     setRecipientIndex(index);
@@ -251,19 +251,21 @@ const PettyCashAdvance = () => {
             onChange={(e) => setTotalAmount(e.target.value)}
           />
 
-          <label className="block text-gray-700 mt-4 mb-1">Recipient:</label>
-          <select
-            className="w-full p-2 border text-gray-700 border-gray-300 rounded"
-            value={recipientIndex}
-            onChange={handleRecipientChange}
-          >
-            <option value=""></option>
-            {recipients.map((rec, index) => (
-              <option key={index} value={index}>
-                {rec.name}
-              </option>
-            ))}
-          </select>
+          <div>
+            <label className="block text-gray-700 mt-4 mb-1">Recipient:</label>
+            <select
+              className="w-full p-2 mb-4 border text-gray-700 border-gray-500 rounded"
+              value={recipientIndex}
+              onChange={handleRecipientChange}
+            >
+              <option value="">Choose The Recipient</option>
+              {recipients.map((rec, index) => (
+                <option key={index} value={index}>
+                  {rec.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <div className="flex flex-wrap gap-4 mt-8">
             <button
