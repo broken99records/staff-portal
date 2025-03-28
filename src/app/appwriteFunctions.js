@@ -140,6 +140,7 @@ export async function getRole() {
 
 export async function getRequestsByRole() {
   try {
+    console.log((await account.get()).email)
     const role = await getRole(); // Retrieve the role dynamically.
     const response = await databases.listDocuments(
       "676a9c3d00142302757e", // Replace with your database ID.
@@ -150,6 +151,23 @@ export async function getRequestsByRole() {
     return response;
   } catch (error) {
     console.error("Error getting requests by role:", error.message);
+    throw new Error("Failed to get requests. Please try again.");
+  }
+}
+
+export async function getRequestsByEmail() {
+  try {
+    
+    const role = (await account.get()).email // Retrieve the user email dynamically.
+    const response = await databases.listDocuments(
+      "676a9c3d00142302757e", // Replace with your database ID.
+      "676a9d230039cefbd5b3", // Replace with your collection ID.
+      [Query.equal("recipientEmail", role)] // Ensure the query matches your schema.
+    );
+    console.log("Requests by email:", response);
+    return response;
+  } catch (error) {
+    console.error("Error getting requests by email:", error.message);
     throw new Error("Failed to get requests. Please try again.");
   }
 }

@@ -4,12 +4,12 @@ import Header from '@/app/components/Header'; // Adjust path as needed
 import Footer from '@/app/components/Footer'; // Adjust path as needed
 import Sidebar from '@/app/components/SideBar'; // Adjust path as needed
 import { useState, useEffect } from 'react';
-import { addItemsToDb } from '@/app/appwriteFunctions';
+import { addItemsToDb, addRequestToDb } from '@/app/appwriteFunctions';
 
 export default function StationeryRequest() {
   //state variables
-  const [branch, setBranch] = useState('');
-  const [department, setDepartment] = useState('');
+  const [branch, setBranch] = useState('undefined');
+  const [department, setDepartment] = useState('undefined');
   
   const [items, setItems] = useState([{ item: "", description: "" }]);
 
@@ -57,7 +57,24 @@ export default function StationeryRequest() {
 
   const handleSubmit = () =>{
     console.log(typeof(JSON.stringify((items))))
-    addItemsToDb(items)
+    addItemsToDb(items);
+    addRequestToDb(
+      branch,
+      department,
+      null,
+      null,
+      items,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      recipientEmail,
+    )
   }
 
 

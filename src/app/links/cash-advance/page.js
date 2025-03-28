@@ -31,9 +31,9 @@ export default function cash_advance() {
 
   //recipients array
   const recipients = [
-    { name: "Finance Department", email: "finance@example.com" },
-    { name: "Branch Manager", email: "manager@example.com" },
-    { name: "Human Resources", email: "hr@example.com" },
+    { name: "Finance Department", email: "amanimeshiet@gmail.com" },
+    { name: "Branch Manager", email: "emmanatesynergy@gmail.com" },
+    { name: "Human Resources", email: "starkly.upcycle@gmail.com" },
   ];
 
   //handles selecting recipients from drop down

@@ -4,7 +4,7 @@ import Header from "@/app/components/Header"; // Adjust path as needed
 import Footer from "@/app/components/Footer"; // Adjust path as needed
 import Sidebar from "@/app/components/SideBar"; // Adjust path as needed
 import { useState, useEffect } from "react";
-import { updateApprovedBy, getAllRequests, getRequestsByRole } from "@/app/appwriteFunctions";
+import { updateApprovedBy, getAllRequests, getRequestsByRole, getRequestsByEmail } from "@/app/appwriteFunctions";
 import { notifyUser } from "@/app/functions";
 
 export default function ReviewRequest() {
@@ -75,11 +75,11 @@ export default function ReviewRequest() {
     }
   }, [role]);
 
-  // Fetch requests by role on component mount
+  // Fetch requests by email on component mount
   useEffect(() => {
     async function fetchRequests() {
       try {
-        const response = await getRequestsByRole();
+        const response = await getRequestsByEmail();
         const { documents } = response; // Destructure only the documents
 
         console.log("request by role is running .......");
