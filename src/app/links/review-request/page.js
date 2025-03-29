@@ -33,6 +33,69 @@ export default function ReviewRequest() {
     "Account"
   ];
 
+  //recipient variables
+    const [recipients, setRecipients] = useState("");
+    const [recipientEmail, setRecipientEmail] = useState("email@ekondomfb.com");
+    const [recipientIndex, setRecipientIndex] = useState(""); // Store index
+
+  //array of recipients and roles
+  const recipient = [
+    {
+      role: "officer",
+      recipients: [
+        { name: "Finance Department", email: "amanimeshiet@gmail.com" },
+        { name: "Branch Manager", email: "emmanatesynergy@gmail.com" },
+        { name: "Human Resources", email: "starkly.upcycle@gmail.com" }
+      ]
+    },
+    {
+      role: "authorizer",
+      recipients: [
+        { name: "Finance Department", email: "amanimeshiet@gmail.com" },
+        { name: "Branch Manager", email: "emmanatesynergy@gmail.com" },
+        { name: "Human Resources", email: "starkly.upcycle@gmail.com" }
+      ]
+    },
+    {
+      role: "reviewer",
+      recipients: [
+        { name: "Finance Department", email: "amanimeshiet@gmail.com" },
+        { name: "Branch Manager", email: "emmanatesynergy@gmail.com" },
+        { name: "Human Resources", email: "starkly.upcycle@gmail.com" }
+      ]
+    },
+    {
+      role: "approver",
+      recipients: [
+        { name: "Finance Department", email: "amanimeshiet@gmail.com" },
+        { name: "Branch Manager", email: "emmanatesynergy@gmail.com" },
+        { name: "Human Resources", email: "starkly.upcycle@gmail.com" }
+      ]
+    },
+    {
+      role: "account",
+      recipients: [
+        { name: "Finance Department", email: "amanimeshiet@gmail.com" },
+        { name: "Branch Manager", email: "emmanatesynergy@gmail.com" },
+        { name: "Human Resources", email: "starkly.upcycle@gmail.com" }
+      ]
+    }
+  ]; 
+
+   //handles selecting recipients from drop down
+    const handleRecipientChange = (e) => {
+      const index = e.target.value;
+      setRecipientIndex(index);
+      setRecipient(recipients[index] !== "" ? recipients[index].name : "");
+      setRecipientEmail(index !== "" ? recipients[index].email : "");
+    };
+  
+    useEffect(() => {
+      if (recipient) {
+        console.log(recipient, recipientEmail, recipientIndex);
+      }
+    }, [recipient]);
+
   // Function to handle authorization
   const handleAuthorization = () => {
     console.log("Authorization is running .......");
@@ -362,6 +425,24 @@ export default function ReviewRequest() {
                 <h2 className="text-lg text-gray-700 font-semibold mb-4">
                   CONFIRM AUTHORIZATION
                 </h2>
+                {
+                // Add any additional information or instructions here
+                // recipient list using roles
+                }
+                <label className="block text-gray-700 mt-4 mb-1">Recipient:</label>
+            <select
+              className="w-full p-2 border mb-4 text-gray-700 border-gray-500 rounded"
+              value={recipientIndex}
+              onChange={handleRecipientChange}
+            >
+              <option value=""> Choose the recipient</option>
+              {recipient.map((rec, index) => (
+                <option key={index} value={index}>
+                  {rec.name}
+                </option>
+              ))}
+            </select>
+
                 <div className="flex justify-end gap-4">
               <button
                 className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
